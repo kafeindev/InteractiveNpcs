@@ -1,8 +1,7 @@
 package dev.kafein.npcinteractions.compatibility;
 
 public enum CompatibilityType {
-    CITIZENS("Citizens"),
-    ZNPC("ServersNPC");
+    CITIZENS("Citizens");
 
     private final String pluginName;
 
