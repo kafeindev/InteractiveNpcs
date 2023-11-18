@@ -1,0 +1,8 @@
+name: NpcInteractions
+description: Npc interactions plugin for Minecraft servers.
+version: 1.0.0
+api-version: 1.15
+author: Kafein
+main: dev.kafein.npcinteractions.plugin.loader.BukkitPluginLoader
+depend: [ProtocolLib]
+softdepend: [Citizens, ServersNPC]
