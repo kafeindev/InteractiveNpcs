@@ -1,6 +1,7 @@
 package dev.kafein.npcinteractions.interaction;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -16,6 +17,14 @@ public final class Interact {
         this.firstLocation = firstLocation;
         this.targetId = targetId;
         this.targetEyeLocation = targetEyeLocation;
+    }
+
+    public static Interact of(Player player, int targetId, Location targetEyeLocation) {
+        return new Interact(player.getUniqueId(), player.getLocation().clone(), targetId, targetEyeLocation);
+    }
+
+    public static Interact of(UUID playerUniqueId, Location firstLocation, int targetId, Location targetEyeLocation) {
+        return new Interact(playerUniqueId, firstLocation, targetId, targetEyeLocation);
     }
 
     public UUID getPlayerUniqueId() {

@@ -1,17 +1,25 @@
-package dev.kafein.npcinteractions.interaction.figure;
+package dev.kafein.npcinteractions.interaction;
 
 import org.bukkit.Location;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public final class Figure {
+public final class InteractiveNpc {
     private final int id;
     private @Nullable Location eyeLocation;
 
-    public Figure(int id, @Nullable Location eyeLocation) {
+    public InteractiveNpc(int id, @Nullable Location eyeLocation) {
         this.id = id;
         this.eyeLocation = eyeLocation;
+    }
+
+    public static InteractiveNpc of(int id) {
+        return new InteractiveNpc(id, null);
+    }
+
+    public static InteractiveNpc of(int id, @Nullable Location eyeLocation) {
+        return new InteractiveNpc(id, eyeLocation);
     }
 
     public int getId() {
@@ -28,15 +36,15 @@ public final class Figure {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Figure)) {
+        if (!(obj instanceof InteractiveNpc)) {
             return false;
         }
         if (obj == this) {
             return true;
         }
 
-        Figure figure = (Figure) obj;
-        return this.id == figure.id;
+        InteractiveNpc other = (InteractiveNpc) obj;
+        return this.id == other.id;
     }
 
     @Override
@@ -46,7 +54,7 @@ public final class Figure {
 
     @Override
     public String toString() {
-        return "Figure{" +
+        return "InteractiveNpc{" +
                 "id=" + this.id +
                 ", eyeLocation=" + this.eyeLocation +
                 '}';

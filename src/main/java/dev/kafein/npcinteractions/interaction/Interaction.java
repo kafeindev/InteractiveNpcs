@@ -1,37 +1,35 @@
 package dev.kafein.npcinteractions.interaction;
 
 import com.google.common.collect.Maps;
-import dev.kafein.npcinteractions.interaction.figure.Figure;
-import dev.kafein.npcinteractions.interaction.figure.Focus;
 
 import java.util.Map;
 import java.util.Objects;
 
 public final class Interaction {
-    private final Figure figure;
+    private final InteractiveNpc interactiveNpc;
     private final Focus focus;
     private final Map<Integer, InteractionStage> stages;
 
-    public Interaction(Figure figure, Focus focus, Map<Integer, InteractionStage> stages) {
-        this.figure = figure;
+    public Interaction(InteractiveNpc interactiveNpc, Focus focus, Map<Integer, InteractionStage> stages) {
+        this.interactiveNpc = interactiveNpc;
         this.focus = focus;
         this.stages = stages;
     }
 
-    public static Interaction of(Figure figure) {
-        return new Interaction(figure, Focus.defaultFocus(), Maps.newHashMap());
+    public static Interaction of(InteractiveNpc interactiveNpc) {
+        return new Interaction(interactiveNpc, Focus.defaultFocus(), Maps.newHashMap());
     }
 
-    public static Interaction of(Figure figure, Focus focus) {
-        return new Interaction(figure, focus, Maps.newHashMap());
+    public static Interaction of(InteractiveNpc interactiveNpc, Focus focus) {
+        return new Interaction(interactiveNpc, focus, Maps.newHashMap());
     }
 
-    public static Interaction of(Figure figure, Focus focus, Map<Integer, InteractionStage> stages) {
-        return new Interaction(figure, focus, stages);
+    public static Interaction of(InteractiveNpc interactiveNpc, Focus focus, Map<Integer, InteractionStage> stages) {
+        return new Interaction(interactiveNpc, focus, stages);
     }
 
-    public Figure getFigure() {
-        return this.figure;
+    public InteractiveNpc getInteractiveNpc() {
+        return this.interactiveNpc;
     }
 
     public Focus getFocus() {
@@ -52,22 +50,22 @@ public final class Interaction {
         }
 
         Interaction other = (Interaction) obj;
-        return this.figure.equals(other.figure)
+        return this.interactiveNpc.equals(other.interactiveNpc)
                 && this.focus.equals(other.focus)
                 && this.stages.equals(other.stages);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.figure, this.focus, this.stages);
+        return Objects.hash(this.interactiveNpc, this.focus, this.stages);
     }
 
     @Override
     public String toString() {
         return "Interaction{"
-                + "figure=" + this.figure
+                + "interactiveNpc=" + this.interactiveNpc
                 + ", focus=" + this.focus
                 + ", stages=" + this.stages
-                + '}';
+                + "}";
     }
 }

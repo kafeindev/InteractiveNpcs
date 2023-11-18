@@ -1,4 +1,4 @@
-package dev.kafein.npcinteractions.interaction.figure;
+package dev.kafein.npcinteractions.interaction;
 
 import java.util.Objects;
 
@@ -37,8 +37,7 @@ public final class Focus {
         }
 
         Focus other = (Focus) obj;
-        return this.fov == other.fov
-                && this.maxDistance == other.maxDistance;
+        return this.fov == other.fov && this.maxDistance == other.maxDistance;
     }
 
     @Override

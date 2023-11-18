@@ -19,4 +19,12 @@ public final class InteractionManager {
         this.interacts = CacheBuilder.newBuilder()
                 .build();
     }
+
+    public Cache<Integer, Interaction> getInteractions() {
+        return this.interactions;
+    }
+
+    public Cache<UUID, Interact> getInteracts() {
+        return this.interacts;
+    }
 }
