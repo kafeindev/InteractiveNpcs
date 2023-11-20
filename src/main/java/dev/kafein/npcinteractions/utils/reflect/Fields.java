@@ -33,11 +33,11 @@ import java.lang.reflect.Field;
 public final class Fields {
     private Fields() {}
 
-    public static void set(@NotNull Field field, @NotNull Object value) {
+    public static void set(@NotNull Field field, @Nullable Object value) {
         set(field, null, value);
     }
 
-    public static void set(@NotNull Field field, @Nullable Object instance, @NotNull Object value) {
+    public static void set(@NotNull Field field, @Nullable Object instance, @Nullable Object value) {
         try {
             field.setAccessible(true);
             field.set(instance, value);
@@ -47,7 +47,7 @@ public final class Fields {
         }
     }
 
-    public static void set(@NotNull Field field, @NotNull Object instance, @NotNull Object value, @NotNull String subFieldName) {
+    public static void set(@NotNull Field field, @NotNull Object instance, @Nullable Object value, @NotNull String subFieldName) {
         try {
             Field subField = field.getType().getDeclaredField(subFieldName);
             set(subField, instance, value);
