@@ -1,43 +1,44 @@
 package dev.kafein.npcinteractions.interaction;
 
-import com.google.common.collect.Maps;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public final class Interaction {
-    private final InteractiveNpc interactiveNpc;
-    private final Focus focus;
-    private final Map<Integer, InteractionStage> stages;
+    private final UUID playerUniqueId;
+    private final Location firstLocation;
+    private final TargetNpc targetNpc;
 
-    public Interaction(InteractiveNpc interactiveNpc, Focus focus, Map<Integer, InteractionStage> stages) {
-        this.interactiveNpc = interactiveNpc;
-        this.focus = focus;
-        this.stages = stages;
+    private int clickCount = 1;
+    private List<String> writtenTexts;
+
+    public Interaction(UUID playerUniqueId, Location firstLocation, TargetNpc targetNpc) {
+        this.playerUniqueId = playerUniqueId;
+        this.firstLocation = firstLocation;
+        this.targetNpc = targetNpc;
     }
 
-    public static Interaction of(InteractiveNpc interactiveNpc) {
-        return new Interaction(interactiveNpc, Focus.defaultFocus(), Maps.newHashMap());
+    public static Interaction of(Player player, TargetNpc targetNpc) {
+        return new Interaction(player.getUniqueId(), player.getLocation().clone(), targetNpc);
     }
 
-    public static Interaction of(InteractiveNpc interactiveNpc, Focus focus) {
-        return new Interaction(interactiveNpc, focus, Maps.newHashMap());
+    public static Interaction of(UUID playerUniqueId, Location firstLocation, TargetNpc targetNpc) {
+        return new Interaction(playerUniqueId, firstLocation, targetNpc);
     }
 
-    public static Interaction of(InteractiveNpc interactiveNpc, Focus focus, Map<Integer, InteractionStage> stages) {
-        return new Interaction(interactiveNpc, focus, stages);
+    public UUID getPlayerUniqueId() {
+        return this.playerUniqueId;
     }
 
-    public InteractiveNpc getInteractiveNpc() {
-        return this.interactiveNpc;
+    public Location getFirstLocation() {
+        return this.firstLocation;
     }
 
-    public Focus getFocus() {
-        return this.focus;
-    }
-
-    public Map<Integer, InteractionStage> getStages() {
-        return this.stages;
+    public TargetNpc getTargetNpc() {
+        return this.targetNpc;
     }
 
     @Override
@@ -50,22 +51,22 @@ public final class Interaction {
         }
 
         Interaction other = (Interaction) obj;
-        return this.interactiveNpc.equals(other.interactiveNpc)
-                && this.focus.equals(other.focus)
-                && this.stages.equals(other.stages);
+        return this.playerUniqueId.equals(other.playerUniqueId)
+                && this.firstLocation.equals(other.firstLocation)
+                && this.targetNpc.equals(other.targetNpc);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.interactiveNpc, this.focus, this.stages);
+        return Objects.hash(this.playerUniqueId, this.firstLocation, this.targetNpc);
     }
 
     @Override
     public String toString() {
         return "Interaction{"
-                + "interactiveNpc=" + this.interactiveNpc
-                + ", focus=" + this.focus
-                + ", stages=" + this.stages
+                + "playerUniqueId=" + this.playerUniqueId
+                + ", firstLocation=" + this.firstLocation
+                + ", targetNpc=" + this.targetNpc
                 + "}";
     }
 }

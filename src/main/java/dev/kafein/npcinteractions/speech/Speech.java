@@ -1,18 +1,19 @@
-package dev.kafein.npcinteractions.interaction;
-
-import dev.kafein.npcinteractions.objective.Objective;
+package dev.kafein.npcinteractions.speech;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public final class Speech {
+    private final SpeechType type;
     private final Map<Integer, SpeechStage> stages;
-    private final Set<Objective> objectives;
 
-    public Speech(Map<Integer, SpeechStage> stages, Set<Objective> objectives) {
+    public Speech(SpeechType type, Map<Integer, SpeechStage> stages) {
+        this.type = type;
         this.stages = stages;
-        this.objectives = objectives;
+    }
+
+    public SpeechType getType() {
+        return this.type;
     }
 
     public Map<Integer, SpeechStage> getStages() {
@@ -27,10 +28,6 @@ public final class Speech {
         return this.getStage(1);
     }
 
-    public Set<Objective> getObjectives() {
-        return this.objectives;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Speech)) {
@@ -41,19 +38,19 @@ public final class Speech {
         }
 
         Speech other = (Speech) obj;
-        return this.stages.equals(other.stages) && this.objectives.equals(other.objectives);
+        return this.type == other.type && this.stages.equals(other.stages);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.stages, this.objectives);
+        return Objects.hash(this.stages);
     }
 
     @Override
     public String toString() {
         return "Speech{" +
-                "stages=" + this.stages +
-                ", objectives=" + this.objectives +
-                '}';
+                "type=" + this.type +
+                ", stages=" + this.stages +
+                "}";
     }
 }
