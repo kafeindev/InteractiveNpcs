@@ -24,8 +24,6 @@
 
 package dev.kafein.npcinteractions.command;
 
-import dev.kafein.npcinteractions.command.completion.TabCompletion;
-import dev.kafein.npcinteractions.command.completion.TabCompletionMap;
 import dev.kafein.npcinteractions.command.context.CommandContext;
 import dev.kafein.npcinteractions.command.context.CommandContextMap;
 import org.bukkit.plugin.Plugin;
@@ -35,12 +33,10 @@ import org.jetbrains.annotations.Nullable;
 public final class CommandManager {
     private final CommandRegistrar commandRegistrar;
     private final CommandContextMap commandContextMap;
-    private final TabCompletionMap tabCompletionMap;
 
     public CommandManager(Plugin plugin) {
         this.commandRegistrar = new CommandRegistrar(plugin);
         this.commandContextMap = new CommandContextMap();
-        this.tabCompletionMap = new TabCompletionMap();
     }
 
     public void registerCommand(@NotNull Command command) {
@@ -57,17 +53,5 @@ public final class CommandManager {
 
     public <T> void registerCommandContext(@NotNull Class<T> clazz, @NotNull CommandContext<T> commandContext) {
         this.commandContextMap.register(clazz, commandContext);
-    }
-
-    public TabCompletionMap getTabCompletionMap() {
-        return this.tabCompletionMap;
-    }
-
-    public @Nullable TabCompletion getTabCompletion(@NotNull String key) {
-        return this.tabCompletionMap.getTabCompletion(key);
-    }
-
-    public void registerTabCompletion(@NotNull String key, @NotNull TabCompletion tabCompletion) {
-        this.tabCompletionMap.register(key, tabCompletion);
     }
 }

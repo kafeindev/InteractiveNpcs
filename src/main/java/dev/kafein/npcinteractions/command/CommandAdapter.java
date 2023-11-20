@@ -76,24 +76,25 @@ final class CommandAdapter extends BukkitCommand {
         }
 
         if (args.length == 0) {
-            return complete(this.command, sender);
+            return complete(this.command, sender, 0);
         } else {
             Command subCommand = this.command.findSubCommand(args);
             if (subCommand.getPermission() != null && !sender.hasPermission(subCommand.getPermission())) {
                 return ImmutableList.of();
             }
 
-            return complete(subCommand, sender);
+            int subCommandIndex = this.command.findSubCommandIndex(args);
+            return complete(subCommand, sender, (args.length - subCommandIndex) - 1);
         }
     }
 
-    private List<String> complete(@NotNull Command command, @NotNull CommandSender commandSender) {
+    private List<String> complete(@NotNull Command command, @NotNull CommandSender commandSender, int index) {
         ImmutableList.Builder<String> builder = ImmutableList.builder();
 
         for (Command subCommand : command.getSubCommands()) {
             builder.addAll(subCommand.getAliases());
         }
-        for (RegisteredTabCompletion registeredTabCompletion : command.getTabCompletions()) {
+        for (RegisteredTabCompletion registeredTabCompletion : command.getTabCompletions(index)) {
             TabCompletion tabCompletion = registeredTabCompletion.getTabCompletion();
             builder.addAll(tabCompletion.apply(commandSender));
         }

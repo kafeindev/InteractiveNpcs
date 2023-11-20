@@ -32,6 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -124,6 +125,13 @@ public abstract class AbstractCommand implements Command {
     @Override
     public List<RegisteredTabCompletion> getTabCompletions() {
         return this.tabCompletions;
+    }
+
+    @Override
+    public List<RegisteredTabCompletion> getTabCompletions(int index) {
+        return this.tabCompletions.stream()
+                .filter(registeredTabCompletion -> registeredTabCompletion.getIndex() == index)
+                .collect(Collectors.toList());
     }
 
     @Override

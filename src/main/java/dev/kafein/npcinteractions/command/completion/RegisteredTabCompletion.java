@@ -35,6 +35,10 @@ public final class RegisteredTabCompletion {
         this.tabCompletion = tabCompletion;
     }
 
+    public static RegisteredTabCompletion of(int index, TabCompletion tabCompletion) {
+        return new RegisteredTabCompletion(index, tabCompletion);
+    }
+
     public int getIndex() {
         return this.index;
     }
