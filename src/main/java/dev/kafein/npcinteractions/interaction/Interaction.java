@@ -12,7 +12,8 @@ public final class Interaction {
     private final Location firstLocation;
     private final TargetNpc targetNpc;
 
-    private int clickCount = 1;
+    private int speechStage;
+    private int clickCount;
     private List<String> writtenTexts;
 
     public Interaction(UUID playerUniqueId, Location firstLocation, TargetNpc targetNpc) {
