@@ -1,7 +1,5 @@
 package dev.kafein.npcinteractions.npc;
 
-import dev.kafein.npcinteractions.speech.Speech;
-
 import java.util.Objects;
 
 public final class InteractiveNpc {

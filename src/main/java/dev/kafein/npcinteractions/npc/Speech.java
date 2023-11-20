@@ -1,4 +1,4 @@
-package dev.kafein.npcinteractions.speech;
+package dev.kafein.npcinteractions.npc;
 
 import java.util.Map;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package dev.kafein.npcinteractions.speech;
+package dev.kafein.npcinteractions.npc;
 
 import dev.kafein.npcinteractions.objective.Objective;
 import org.jetbrains.annotations.Nullable;
