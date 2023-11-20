@@ -26,7 +26,11 @@ package dev.kafein.npcinteractions.configuration;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.reflect.TypeToken;
+import dev.kafein.npcinteractions.configuration.serializers.BukkitLocationSerializer;
 import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
+import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +41,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 public final class ConfigManager {
+    @SuppressWarnings("UnstableApiUsage")
+    public static final ConfigurationOptions DEFAULT_OPTIONS = ConfigurationOptions.defaults()
+            .withSerializers(collection -> {
+                collection.register(TypeToken.of(Location.class), BukkitLocationSerializer.getInstance());
+            });
+
     private final Cache<String, Config> configs;
     private final Path dataFolder;
     private final KeyInjector keyInjector;
@@ -74,12 +84,14 @@ public final class ConfigManager {
 
     public Config register(@NotNull String name, @NotNull Path path) {
         Config config = ConfigBuilder.builder(path)
+                .options(DEFAULT_OPTIONS)
                 .build();
         return register(name, config);
     }
 
     public Config register(@NotNull String name, @NotNull Path path, @NotNull InputStream stream) {
         Config config = ConfigBuilder.builder(path)
+                .options(DEFAULT_OPTIONS)
                 .resource(stream)
                 .build();
         return register(name, config);
@@ -87,6 +99,7 @@ public final class ConfigManager {
 
     public Config register(@NotNull String name, @NotNull Path path, @NotNull Class<?> clazz, @NotNull String resource) {
         Config config = ConfigBuilder.builder(path)
+                .options(DEFAULT_OPTIONS)
                 .resource(clazz, resource)
                 .build();
         return register(name, config);
@@ -94,12 +107,14 @@ public final class ConfigManager {
 
     public Config register(@NotNull String name, @NotNull String... path) {
         Config config = ConfigBuilder.builder(this.dataFolder, path)
+                .options(DEFAULT_OPTIONS)
                 .build();
         return register(name, config);
     }
 
     public Config register(@NotNull String name, @NotNull InputStream stream, @NotNull String... path) {
         Config config = ConfigBuilder.builder(this.dataFolder, path)
+                .options(DEFAULT_OPTIONS)
                 .resource(stream)
                 .build();
         return register(name, config);
@@ -107,6 +122,7 @@ public final class ConfigManager {
 
     public Config register(@NotNull String name, @NotNull Class<?> clazz, @NotNull String resource, @NotNull String... path) {
         Config config = ConfigBuilder.builder(this.dataFolder, path)
+                .options(DEFAULT_OPTIONS)
                 .resource(clazz, resource)
                 .build();
         return register(name, config);
