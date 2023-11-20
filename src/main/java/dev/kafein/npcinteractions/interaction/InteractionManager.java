@@ -6,6 +6,7 @@ import dev.kafein.npcinteractions.NpcInteractions;
 import dev.kafein.npcinteractions.npc.InteractiveNpc;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -23,18 +24,14 @@ public final class InteractionManager {
                 .build();
     }
 
-    public void interact(UUID uuid, int npcId) {
+    public void interact(@NotNull UUID uuid, @NotNull TargetNpc targetNpc) {
         Player player = Bukkit.getPlayer(uuid);
         if (player != null) {
-            interact(player, npcId);
+            interact(player, targetNpc);
         }
     }
 
-    public void interact(Player player, int npcId) {
-
-    }
-
-    public void interact(Interaction interact) {
+    public void interact(@NotNull Player player, @NotNull TargetNpc targetNpc) {
 
     }
 
