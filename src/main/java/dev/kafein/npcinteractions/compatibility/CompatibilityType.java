@@ -1,6 +1,7 @@
 package dev.kafein.npcinteractions.compatibility;
 
 public enum CompatibilityType {
+    VAULT("Vault"),
     CITIZENS("Citizens");
 
     private final String pluginName;
