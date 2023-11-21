@@ -49,13 +49,13 @@ public final class InteractionManager {
     public void interact(@NotNull Player player, @NotNull Interaction interaction) {
         InteractiveNpc interactiveNpc = this.npcs.getIfPresent(interaction.getTargetNpc().getId());
         if (interactiveNpc == null) {
-            //remove from cache and cancel actions
+            cancel(player.getUniqueId());
             return;
         }
 
         Focus focus = interactiveNpc.getFocus();
         if (interaction.getFirstLocation().distance(player.getLocation().clone()) > focus.getMaxDistance()) {
-            //remove from cache and cancel actions
+            cancel(player.getUniqueId());
             return;
         }
 
@@ -83,7 +83,7 @@ public final class InteractionManager {
         }
 
         if (!objective.testConditions(player)) {
-            //remove from cache and cancel actions
+            cancel(player.getUniqueId());
             return;
         }
 
@@ -91,6 +91,18 @@ public final class InteractionManager {
         objective.applyRewards(player);
 
         //continue with next speech stage
+    }
+
+    public void cancel(@NotNull UUID uuid) {
+        this.interactions.invalidate(uuid);
+
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null || !player.isOnline()) {
+            return;
+        }
+
+        PacketContainer packetContainer = PacketContainerFactory.createAbilities(1.0F);
+        this.plugin.getProtocolManager().sendServerPacket(player, packetContainer);
     }
 
     public Cache<UUID, Interaction> getInteractions() {
