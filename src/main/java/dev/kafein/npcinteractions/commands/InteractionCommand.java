@@ -7,13 +7,13 @@ import dev.kafein.npcinteractions.command.CommandProperties;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public final class InteractionsCommand extends AbstractCommand {
+public final class InteractionCommand extends AbstractCommand {
     private final NpcInteractions plugin;
 
-    public InteractionsCommand(NpcInteractions plugin) {
+    public InteractionCommand(NpcInteractions plugin) {
         super(CommandProperties.newBuilder()
-                        .name("interactions")
-                        .usage("/interactions")
+                        .name("interaction")
+                        .usage("/interaction")
                         .description("Command for NpcInteractions plugin")
                         .permission("interactions.admin")
                         .build(),
