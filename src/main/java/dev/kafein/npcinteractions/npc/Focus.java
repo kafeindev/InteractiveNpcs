@@ -3,23 +3,23 @@ package dev.kafein.npcinteractions.npc;
 import java.util.Objects;
 
 public final class Focus {
-    private final double fov; // between 1.0 and 10.0
+    private final float fov; // between 1.0 and 10.0
     private final double maxDistance;
 
-    public Focus(double fov, double maxDistance) {
+    public Focus(float fov, double maxDistance) {
         this.fov = fov;
         this.maxDistance = maxDistance;
     }
 
     public static Focus defaultFocus() {
-        return new Focus(2.0, 3.0);
+        return new Focus(2.0f, 3.0);
     }
 
-    public static Focus of(double fov, double maxDistance) {
+    public static Focus of(float fov, double maxDistance) {
         return new Focus(fov, maxDistance);
     }
 
-    public double getFov() {
+    public float getFov() {
         return this.fov;
     }
 
