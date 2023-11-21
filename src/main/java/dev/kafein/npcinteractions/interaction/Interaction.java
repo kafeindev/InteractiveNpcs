@@ -2,6 +2,7 @@ package dev.kafein.npcinteractions.interaction;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,8 +13,10 @@ public final class Interaction {
     private final Location firstLocation;
     private final TargetNpc targetNpc;
 
-    private int speechStage;
     private int clickCount;
+    private boolean focused;
+
+    private int speechStage;
     private List<String> writtenTexts;
 
     public Interaction(UUID playerUniqueId, Location firstLocation, TargetNpc targetNpc) {
@@ -40,6 +43,38 @@ public final class Interaction {
 
     public TargetNpc getTargetNpc() {
         return this.targetNpc;
+    }
+
+    public int getClickCount() {
+        return this.clickCount;
+    }
+
+    public int increaseClickCount() {
+        return this.clickCount++;
+    }
+
+    public boolean isFocused() {
+        return this.focused;
+    }
+
+    public void setFocused(boolean focused) {
+        this.focused = focused;
+    }
+
+    public int getSpeechStage() {
+        return this.speechStage;
+    }
+
+    public void setSpeechStage(int speechStage) {
+        this.speechStage = speechStage;
+    }
+
+    public @Nullable List<String> getWrittenTexts() {
+        return this.writtenTexts;
+    }
+
+    public void setWrittenTexts(@Nullable List<String> writtenTexts) {
+        this.writtenTexts = writtenTexts;
     }
 
     @Override
