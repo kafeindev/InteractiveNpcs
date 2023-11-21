@@ -2,7 +2,7 @@ package dev.kafein.npcinteractions;
 
 import com.google.common.collect.ImmutableSet;
 import dev.kafein.npcinteractions.command.Command;
-import dev.kafein.npcinteractions.commands.InteractionsCommand;
+import dev.kafein.npcinteractions.commands.InteractionCommand;
 import dev.kafein.npcinteractions.compatibility.Compatibility;
 import dev.kafein.npcinteractions.compatibility.CompatibilityFactory;
 import dev.kafein.npcinteractions.compatibility.CompatibilityType;
@@ -34,8 +34,8 @@ public final class NpcInteractions extends AbstractBukkitPlugin {
                 continue;
             }
 
-            Compatibility compatibility = CompatibilityFactory.createCompatibility(compatibilityType);
-            compatibility.initialize(this);
+            Compatibility compatibility = CompatibilityFactory.createCompatibility(compatibilityType, this);
+            compatibility.initialize();
         }
     }
 
@@ -47,7 +47,7 @@ public final class NpcInteractions extends AbstractBukkitPlugin {
     @Override
     public Set<Command> getCommands() {
         return ImmutableSet.of(
-                new InteractionsCommand(this)
+                new InteractionCommand(this)
         );
     }
 
