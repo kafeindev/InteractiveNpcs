@@ -66,7 +66,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveFileName = 'NpcInteractions-' + project.version + '.jar'
+    archiveFileName = 'InteractiveNpcs-' + project.version + '.jar'
 
     relocate 'ninja.leaping.configurate', project.group + '.libs.configurate'
 }
