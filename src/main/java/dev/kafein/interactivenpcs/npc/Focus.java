@@ -3,20 +3,26 @@ package dev.kafein.interactivenpcs.npc;
 import java.util.Objects;
 
 public final class Focus {
+    private final float speed;
     private final float fov; // between 1.0 and 10.0
     private final double maxDistance;
 
-    public Focus(float fov, double maxDistance) {
+    public Focus(float speed, float fov, double maxDistance) {
+        this.speed = speed;
         this.fov = fov;
         this.maxDistance = maxDistance;
     }
 
     public static Focus defaultFocus() {
-        return new Focus(2.0f, 3.0);
+        return new Focus(10.0f, 0.5f, 3.0);
     }
 
-    public static Focus of(float fov, double maxDistance) {
-        return new Focus(fov, maxDistance);
+    public static Focus of(float speed, float fov, double maxDistance) {
+        return new Focus(speed, fov, maxDistance);
+    }
+
+    public float getSpeed() {
+        return this.speed;
     }
 
     public float getFov() {
@@ -37,18 +43,21 @@ public final class Focus {
         }
 
         Focus other = (Focus) obj;
-        return this.fov == other.fov && this.maxDistance == other.maxDistance;
+        return this.speed == other.speed
+                && this.fov == other.fov
+                && this.maxDistance == other.maxDistance;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.fov, this.maxDistance);
+        return Objects.hash(this.speed, this.fov, this.maxDistance);
     }
 
     @Override
     public String toString() {
         return "Focus{"
-                + "fov=" + this.fov
+                + "speed=" + this.speed
+                + ", fov=" + this.fov
                 + ", maxDistance=" + this.maxDistance
                 + "}";
     }
