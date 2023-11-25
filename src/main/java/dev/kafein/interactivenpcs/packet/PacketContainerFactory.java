@@ -30,9 +30,12 @@ import com.comphenix.protocol.events.PacketContainer;
 public final class PacketContainerFactory {
     private PacketContainerFactory() {}
 
-    public static PacketContainer createAbilities(float speed) {
+    public static PacketContainer createAbilities(float walkSpeed, float flySpeed, boolean canFly, boolean flying) {
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.ABILITIES);
-        packet.getFloat().write(1, speed);
+        packet.getFloat().write(0, flySpeed);
+        packet.getFloat().write(1, walkSpeed);
+        packet.getBooleans().write(1, flying);
+        packet.getBooleans().write(2, canFly);
         return packet;
     }
 }
