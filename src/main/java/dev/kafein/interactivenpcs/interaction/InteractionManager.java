@@ -25,6 +25,8 @@ public final class InteractionManager {
                 .build();
         this.npcs = CacheBuilder.newBuilder()
                 .build();
+
+        this.npcs.put(0, InteractiveNpc.of(0, null)); // for test
     }
 
     public void interact(@NotNull UUID uuid, @NotNull TargetNpc targetNpc) {
@@ -60,7 +62,7 @@ public final class InteractionManager {
         }
 
         if (!interaction.isFocused()) {
-            PacketContainer packetContainer = PacketContainerFactory.createAbilities(focus.getFov());
+            PacketContainer packetContainer = PacketContainerFactory.createAbilities(focus.getFov(), player.getFlySpeed(), player.getAllowFlight(), player.isFlying());
             this.plugin.getProtocolManager().sendServerPacket(player, packetContainer);
         }
 
@@ -69,6 +71,11 @@ public final class InteractionManager {
         }
 
         Speech speech = interactiveNpc.getSpeech();
+        if (speech == null) {
+            //cancel(player.getUniqueId());
+            return;
+        }
+
         SpeechStage speechStage = speech.getStage(interaction.getSpeechStage());
 
         if (speech.getType() == SpeechType.BUBBLE) {
@@ -101,7 +108,9 @@ public final class InteractionManager {
             return;
         }
 
-        PacketContainer packetContainer = PacketContainerFactory.createAbilities(1.0F);
+        player.removeMetadata("npc-interaction", this.plugin.getPlugin());
+
+        PacketContainer packetContainer = PacketContainerFactory.createAbilities(0.0f, player.getFlySpeed(), player.getAllowFlight(), player.isFlying());
         this.plugin.getProtocolManager().sendServerPacket(player, packetContainer);
     }
 
