@@ -19,10 +19,13 @@ public final class Interaction {
     private int speechStage;
     private List<String> writtenTexts;
 
+    private Location lastLocation;
+
     public Interaction(UUID playerUniqueId, Location firstLocation, TargetNpc targetNpc) {
         this.playerUniqueId = playerUniqueId;
         this.firstLocation = firstLocation;
         this.targetNpc = targetNpc;
+        this.lastLocation = firstLocation;
     }
 
     public static Interaction of(Player player, TargetNpc targetNpc) {
@@ -77,6 +80,14 @@ public final class Interaction {
         this.writtenTexts = writtenTexts;
     }
 
+    public Location getLastLocation() {
+        return this.lastLocation;
+    }
+
+    public void setLastLocation(Location lastLocation) {
+        this.lastLocation = lastLocation;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Interaction)) {
@@ -87,14 +98,19 @@ public final class Interaction {
         }
 
         Interaction other = (Interaction) obj;
-        return this.playerUniqueId.equals(other.playerUniqueId)
-                && this.firstLocation.equals(other.firstLocation)
-                && this.targetNpc.equals(other.targetNpc);
+        return Objects.equals(this.playerUniqueId, other.playerUniqueId)
+                && Objects.equals(this.firstLocation, other.firstLocation)
+                && Objects.equals(this.targetNpc, other.targetNpc)
+                && this.clickCount == other.clickCount
+                && this.focused == other.focused
+                && this.speechStage == other.speechStage
+                && Objects.equals(this.writtenTexts, other.writtenTexts)
+                && Objects.equals(this.lastLocation, other.lastLocation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.playerUniqueId, this.firstLocation, this.targetNpc);
+        return Objects.hash(this.playerUniqueId, this.firstLocation, this.targetNpc, this.clickCount, this.focused, this.speechStage, this.writtenTexts, this.lastLocation);
     }
 
     @Override
@@ -103,6 +119,11 @@ public final class Interaction {
                 + "playerUniqueId=" + this.playerUniqueId
                 + ", firstLocation=" + this.firstLocation
                 + ", targetNpc=" + this.targetNpc
+                + ", clickCount=" + this.clickCount
+                + ", focused=" + this.focused
+                + ", speechStage=" + this.speechStage
+                + ", writtenTexts=" + this.writtenTexts
+                + ", lastLocation=" + this.lastLocation
                 + "}";
     }
 }
