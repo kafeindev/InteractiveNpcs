@@ -8,9 +8,11 @@ import dev.kafein.interactivenpcs.compatibility.CompatibilityFactory;
 import dev.kafein.interactivenpcs.compatibility.CompatibilityType;
 import dev.kafein.interactivenpcs.interaction.InteractionManager;
 import dev.kafein.interactivenpcs.plugin.AbstractBukkitPlugin;
+import dev.kafein.interactivenpcs.tasks.MovementCheckTask;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.Set;
 
@@ -30,7 +32,7 @@ public final class InteractiveNpcs extends AbstractBukkitPlugin {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         for (CompatibilityType compatibilityType : CompatibilityType.values()) {
-            if (pluginManager.isPluginEnabled(compatibilityType.getPluginName())) {
+            if (!pluginManager.isPluginEnabled(compatibilityType.getPluginName())) {
                 continue;
             }
 
@@ -53,12 +55,13 @@ public final class InteractiveNpcs extends AbstractBukkitPlugin {
 
     @Override
     public Set<Class<?>> getListeners() {
-        return null;
+        return ImmutableSet.of();
     }
 
     @Override
     public void startTasks() {
-
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.scheduleSyncRepeatingTask(getPlugin(), new MovementCheckTask(this), 0L, 10L);
     }
 
     @Override
