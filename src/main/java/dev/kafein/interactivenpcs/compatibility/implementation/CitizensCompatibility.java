@@ -4,7 +4,7 @@ import dev.kafein.interactivenpcs.InteractiveNpcs;
 import dev.kafein.interactivenpcs.compatibility.Compatibility;
 import dev.kafein.interactivenpcs.interaction.TargetNpc;
 import dev.kafein.interactivenpcs.npc.InteractiveNpc;
-import net.citizensnpcs.api.event.NPCClickEvent;
+import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -26,7 +26,7 @@ public final class CitizensCompatibility implements Compatibility, Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onClick(NPCClickEvent event) {
+    public void onClick(NPCRightClickEvent event) {
         NPC npc = event.getNPC();
 
         InteractiveNpc interactiveNpc = this.plugin.getInteractionManager().getNpcs().getIfPresent(npc.getId());
@@ -34,7 +34,7 @@ public final class CitizensCompatibility implements Compatibility, Listener {
             return;
         }
 
-        TargetNpc targetNpc = new TargetNpc(npc.getId(), npc.getEntity().getLocation().clone().add(0, 1.5, 0));
+        TargetNpc targetNpc = new TargetNpc(npc.getId(), npc.getEntity().getLocation().clone());
         this.plugin.getInteractionManager().interact(event.getClicker(), targetNpc);
     }
 }
