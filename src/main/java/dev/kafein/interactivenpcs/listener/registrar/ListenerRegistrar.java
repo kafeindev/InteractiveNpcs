@@ -24,8 +24,6 @@
 
 package dev.kafein.interactivenpcs.listener.registrar;
 
-import static com.google.common.base.Preconditions.*;
-
 import dev.kafein.interactivenpcs.plugin.BukkitPlugin;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -40,8 +38,6 @@ public final class ListenerRegistrar {
     private ListenerRegistrar() {}
 
     public static void register(@NotNull BukkitPlugin plugin, @NotNull Set<Class<?>> listenerClasses) {
-        checkArgument(!listenerClasses.isEmpty(), "Listener list is empty");
-
         Plugin handle = JavaPlugin.getProvidingPlugin(ListenerRegistrar.class);
         PluginManager pluginManager = handle.getServer().getPluginManager();
 
