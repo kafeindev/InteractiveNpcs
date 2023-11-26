@@ -29,7 +29,7 @@ public final class MovementCheckTask implements Runnable {
         interactionCache.asMap().forEach((uuid, interact) -> {
             Player player = Bukkit.getPlayer(uuid);
             if (player == null) {
-                this.plugin.getInteractionManager().cancel(uuid);
+                this.plugin.getInteractionManager().invalidate(uuid);
                 return;
             }
 
@@ -37,14 +37,14 @@ public final class MovementCheckTask implements Runnable {
 
             InteractiveNpc interactiveNpc = this.plugin.getInteractionManager().getNpcs().getIfPresent(targetNpc.getId());
             if (interactiveNpc == null) {
-                this.plugin.getInteractionManager().cancel(uuid);
+                this.plugin.getInteractionManager().invalidate(uuid);
                 return;
             }
 
             Focus focus = interactiveNpc.getFocus();
             Location playerLocation = player.getLocation().clone();
             if (playerLocation.distance(interact.getFirstLocation()) > focus.getMaxDistance()) {
-                this.plugin.getInteractionManager().cancel(uuid);
+                this.plugin.getInteractionManager().invalidate(uuid);
                 return;
             }
 
