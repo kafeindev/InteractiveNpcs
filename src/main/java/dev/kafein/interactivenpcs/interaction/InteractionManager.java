@@ -51,13 +51,13 @@ public final class InteractionManager {
     public void interact(@NotNull Player player, @NotNull Interaction interaction) {
         InteractiveNpc interactiveNpc = this.npcs.getIfPresent(interaction.getTargetNpc().getId());
         if (interactiveNpc == null) {
-            cancel(player.getUniqueId());
+            invalidate(player.getUniqueId());
             return;
         }
 
         Focus focus = interactiveNpc.getFocus();
         if (interaction.getFirstLocation().distance(player.getLocation().clone()) > focus.getMaxDistance()) {
-            cancel(player.getUniqueId());
+            invalidate(player.getUniqueId());
             return;
         }
 
@@ -72,7 +72,7 @@ public final class InteractionManager {
 
         Speech speech = interactiveNpc.getSpeech();
         if (speech == null) {
-            //cancel(player.getUniqueId());
+            //invalidate(player.getUniqueId());
             return;
         }
 
@@ -90,7 +90,7 @@ public final class InteractionManager {
         }
 
         if (!objective.testConditions(player)) {
-            cancel(player.getUniqueId());
+            invalidate(player.getUniqueId());
             return;
         }
 
@@ -100,7 +100,7 @@ public final class InteractionManager {
         //continue with next speech stage
     }
 
-    public void cancel(@NotNull UUID uuid) {
+    public void invalidate(@NotNull UUID uuid) {
         this.interactions.invalidate(uuid);
 
         Player player = Bukkit.getPlayer(uuid);
