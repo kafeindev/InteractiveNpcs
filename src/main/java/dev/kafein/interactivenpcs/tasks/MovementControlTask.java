@@ -16,10 +16,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public final class MovementCheckTask implements Runnable {
+public final class MovementControlTask implements Runnable {
     private final InteractiveNpcs plugin;
 
-    public MovementCheckTask(InteractiveNpcs plugin) {
+    public MovementControlTask(InteractiveNpcs plugin) {
         this.plugin = plugin;
     }
 
