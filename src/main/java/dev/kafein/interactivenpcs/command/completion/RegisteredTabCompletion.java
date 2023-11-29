@@ -57,7 +57,7 @@ public final class RegisteredTabCompletion {
         }
 
         RegisteredTabCompletion other = (RegisteredTabCompletion) obj;
-        return this.index == other.index && this.tabCompletion.equals(other.tabCompletion);
+        return Objects.equals(this.index, other.index) && Objects.equals(this.tabCompletion, other.tabCompletion);
     }
 
     @Override
@@ -69,7 +69,7 @@ public final class RegisteredTabCompletion {
     public String toString() {
         return "RegisteredTabCompletion{" +
                 "index=" + this.index +
-                ", name='" + this.tabCompletion + '\'' +
-                '}';
+                ", tabCompletion=" + this.tabCompletion +
+                "}";
     }
 }

@@ -57,4 +57,29 @@ public final class CommandContextMap {
     public <T> void unregister(@NotNull Class<T> clazz) {
         this.commandContexts.remove(clazz);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof CommandContextMap)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+
+        CommandContextMap other = (CommandContextMap) obj;
+        return this.commandContexts.equals(other.commandContexts);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.commandContexts.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "CommandContextMap{" +
+                "commandContexts=" + this.commandContexts +
+                "}";
+    }
 }

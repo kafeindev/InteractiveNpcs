@@ -32,6 +32,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public interface Command {
+    CommandProperties getProperties();
+
     String getName();
 
     List<String> getAliases();

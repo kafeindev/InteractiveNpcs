@@ -90,7 +90,11 @@ public final class CommandProperties {
         }
 
         CommandProperties commandProperties = (CommandProperties) obj;
-        return commandProperties.name.equals(this.name);
+        return Objects.equals(this.name, commandProperties.name)
+                && Objects.equals(this.aliases, commandProperties.aliases)
+                && Objects.equals(this.description, commandProperties.description)
+                && Objects.equals(this.usage, commandProperties.usage)
+                && Objects.equals(this.permission, commandProperties.permission);
     }
 
     @Override
@@ -101,12 +105,12 @@ public final class CommandProperties {
     @Override
     public String toString() {
         return "CommandProperties{" +
-                "name='" + this.name + '\'' +
+                "name=" + this.name +
                 ", aliases=" + this.aliases +
-                ", description='" + this.description + '\'' +
-                ", usage='" + this.usage + '\'' +
-                ", permission='" + this.permission + '\'' +
-                '}';
+                ", description=" + this.description +
+                ", usage=" + this.usage +
+                ", permission=" + this.permission +
+                "}";
     }
 
     @NotNull
@@ -157,7 +161,6 @@ public final class CommandProperties {
 
         public CommandProperties build() {
             checkNotNull(this.name, "name");
-
             return new CommandProperties(this.name, this.aliases, this.description, this.usage, this.permission);
         }
     }

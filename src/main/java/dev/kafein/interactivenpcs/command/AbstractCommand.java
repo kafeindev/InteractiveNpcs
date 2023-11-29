@@ -56,6 +56,11 @@ public abstract class AbstractCommand implements Command {
     }
 
     @Override
+    public CommandProperties getProperties() {
+        return this.properties;
+    }
+
+    @Override
     public String getName() {
         return this.properties.getName();
     }
@@ -144,22 +149,22 @@ public abstract class AbstractCommand implements Command {
         }
 
         Command command = (Command) obj;
-        return command.getName().equalsIgnoreCase(this.getName());
+        return Objects.equals(this.properties, command.getProperties())
+                && Objects.equals(this.subCommands, command.getSubCommands())
+                && Objects.equals(this.tabCompletions, command.getTabCompletions());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getName(), this.getAliases(), this.getDescription(), this.getUsage(), this.getPermission());
+        return Objects.hash(this.properties, this.subCommands, this.tabCompletions);
     }
 
     @Override
     public String toString() {
-        return "CommandProperties{" +
-                "name='" + this.getName() + '\'' +
-                ", aliases=" + this.getAliases() +
-                ", description='" + this.getDescription() + '\'' +
-                ", usage='" + this.getUsage() + '\'' +
-                ", permission='" + this.getPermission() + '\'' +
-                '}';
+        return "AbstractCommand{" +
+                "properties=" + this.properties +
+                ", subCommands=" + this.subCommands +
+                ", tabCompletions=" + this.tabCompletions +
+                "}";
     }
 }
