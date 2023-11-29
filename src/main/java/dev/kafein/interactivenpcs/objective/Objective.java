@@ -51,7 +51,7 @@ public final class Objective {
         }
 
         Objective other = (Objective) obj;
-        return this.conditions.equals(other.conditions) && this.rewards.equals(other.rewards);
+        return Objects.equals(this.conditions, other.conditions) && Objects.equals(this.rewards, other.rewards);
     }
 
     @Override

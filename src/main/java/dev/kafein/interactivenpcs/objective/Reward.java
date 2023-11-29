@@ -72,7 +72,7 @@ public final class Reward {
         }
 
         Reward other = (Reward) obj;
-        return this.commands.equals(other.commands) && this.items.equals(other.items);
+        return Objects.equals(this.commands, other.commands) && Objects.equals(this.items, other.items);
     }
 
     @Override

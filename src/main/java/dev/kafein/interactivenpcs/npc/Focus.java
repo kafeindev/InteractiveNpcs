@@ -43,9 +43,7 @@ public final class Focus {
         }
 
         Focus other = (Focus) obj;
-        return this.speed == other.speed
-                && this.fov == other.fov
-                && this.maxDistance == other.maxDistance;
+        return this.speed == other.speed && this.fov == other.fov && this.maxDistance == other.maxDistance;
     }
 
     @Override
