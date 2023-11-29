@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.npc;
+package dev.kafein.interactivenpcs.speech;
 
 import java.util.Map;
 import java.util.Objects;
@@ -43,7 +43,7 @@ public final class Speech {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.stages);
+        return Objects.hash(this.type, this.stages);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.npc;
+package dev.kafein.interactivenpcs.speech;
 
 public enum SpeechType {
     CHAT,
