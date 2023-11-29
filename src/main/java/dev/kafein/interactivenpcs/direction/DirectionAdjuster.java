@@ -51,7 +51,7 @@ public final class DirectionAdjuster extends BukkitRunnable {
             return;
         }
 
-        Direction newDirection = direction.interpolate(this.targetDirection, speed / distance);
+        Direction newDirection = direction.interpolate(this.targetDirection, (speed / distance) / 2);
         teleport(playerLocation, newDirection);
 
         this.currentDirection = newDirection;
