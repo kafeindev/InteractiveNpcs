@@ -1,0 +1,19 @@
+offset-symbol: "%img_offset_-1%"
+
+clear-chat:
+  every-click: true
+
+invalidate-after-last-speech: true
+
+speech:
+  bubble-lines:
+    fonts:
+      - "<font:minecraft:bubble_row_1>"
+      - "<font:minecraft:bubble_row_2>"
+      - "<font:minecraft:bubble_row_3>"
+      - "<font:minecraft:bubble_row_4>"
+    default-color: "<black>"
+    default-offset: -40
+    default-image:
+      symbol: "%img_bubble_chat%"
+      width: 250
