@@ -2,7 +2,6 @@ package dev.kafein.interactivenpcs.interaction;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +16,8 @@ public final class Interaction {
     private boolean focused;
 
     private int speechStage;
-    private List<String> writtenTexts;
+    private List<String> writtenLines;
+    private boolean allLinesWritten;
 
     private Location lastLocation;
 
@@ -53,7 +53,7 @@ public final class Interaction {
     }
 
     public int increaseClickCount() {
-        return this.clickCount++;
+        return ++this.clickCount;
     }
 
     public boolean isFocused() {
@@ -68,16 +68,28 @@ public final class Interaction {
         return this.speechStage;
     }
 
+    public int increaseSpeechStage() {
+        return ++this.speechStage;
+    }
+
     public void setSpeechStage(int speechStage) {
         this.speechStage = speechStage;
     }
 
-    public @Nullable List<String> getWrittenTexts() {
-        return this.writtenTexts;
+    public List<String> getWrittenLines() {
+        return this.writtenLines;
     }
 
-    public void setWrittenTexts(@Nullable List<String> writtenTexts) {
-        this.writtenTexts = writtenTexts;
+    public void setWrittenLines(List<String> writtenLines) {
+        this.writtenLines = writtenLines;
+    }
+
+    public boolean isAllLinesWritten() {
+        return this.allLinesWritten;
+    }
+
+    public void setAllLinesWritten(boolean allLinesWritten) {
+        this.allLinesWritten = allLinesWritten;
     }
 
     public Location getLastLocation() {
@@ -104,13 +116,14 @@ public final class Interaction {
                 && this.clickCount == other.clickCount
                 && this.focused == other.focused
                 && this.speechStage == other.speechStage
-                && Objects.equals(this.writtenTexts, other.writtenTexts)
+                && Objects.equals(this.writtenLines, other.writtenLines)
+                && this.allLinesWritten == other.allLinesWritten
                 && Objects.equals(this.lastLocation, other.lastLocation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.playerUniqueId, this.firstLocation, this.targetNpc, this.clickCount, this.focused, this.speechStage, this.writtenTexts, this.lastLocation);
+        return Objects.hash(this.playerUniqueId, this.firstLocation, this.targetNpc, this.clickCount, this.focused, this.speechStage, this.writtenLines, this.allLinesWritten, this.lastLocation);
     }
 
     @Override
@@ -122,7 +135,8 @@ public final class Interaction {
                 + ", clickCount=" + this.clickCount
                 + ", focused=" + this.focused
                 + ", speechStage=" + this.speechStage
-                + ", writtenTexts=" + this.writtenTexts
+                + ", writtenLines=" + this.writtenLines
+                + ", allLinesWritten=" + this.allLinesWritten
                 + ", lastLocation=" + this.lastLocation
                 + "}";
     }
