@@ -30,6 +30,15 @@ public final class Strings {
     private Strings() {
     }
 
+    public static String repeat(String str, int count) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            builder.append(str);
+        }
+
+        return builder.toString();
+    }
+
     public static String capitalize(String str) {
         if (str == null || str.isEmpty()) {
             return str;
