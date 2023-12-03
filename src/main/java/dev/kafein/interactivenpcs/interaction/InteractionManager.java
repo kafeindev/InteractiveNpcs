@@ -4,13 +4,19 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import dev.kafein.interactivenpcs.InteractiveNpcs;
-import dev.kafein.interactivenpcs.npc.*;
-import dev.kafein.interactivenpcs.objective.Objective;
+import dev.kafein.interactivenpcs.npc.Focus;
+import dev.kafein.interactivenpcs.npc.InteractiveNpc;
 import dev.kafein.interactivenpcs.packet.PacketContainerFactory;
+import dev.kafein.interactivenpcs.speech.Speech;
+import dev.kafein.interactivenpcs.speech.SpeechStage;
+import dev.kafein.interactivenpcs.speech.SpeechType;
+import dev.kafein.interactivenpcs.speech.SpeechWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public final class InteractionManager {
@@ -25,8 +31,6 @@ public final class InteractionManager {
                 .build();
         this.npcs = CacheBuilder.newBuilder()
                 .build();
-
-        this.npcs.put(0, InteractiveNpc.of(0, null)); // for test
     }
 
     public void interact(@NotNull UUID uuid, @NotNull TargetNpc targetNpc) {
@@ -66,38 +70,44 @@ public final class InteractionManager {
             this.plugin.getProtocolManager().sendServerPacket(player, packetContainer);
         }
 
-        if (interaction.increaseClickCount() == 1) { //check if it is the first click
+        Speech speech = interactiveNpc.getSpeech();
+        if (speech == null) {
             return;
         }
 
-        Speech speech = interactiveNpc.getSpeech();
-        if (speech == null) {
-            //invalidate(player.getUniqueId());
+        if (interaction.increaseClickCount() == 1) {
+            SpeechWriter.runTask(this.plugin, interaction, speech);
             return;
         }
 
         SpeechStage speechStage = speech.getStage(interaction.getSpeechStage());
-
-        if (speech.getType() == SpeechType.BUBBLE) {
-            //write all words if they are not written
-            return;
-        }
-
-        Objective objective = speechStage.getObjective();
-        if (objective == null) {
-            //continue with next speech stage
-            return;
-        }
-
-        if (!objective.testConditions(player)) {
+        if (speechStage == null) {
             invalidate(player.getUniqueId());
             return;
         }
 
-        objective.applyConditions(player);
-        objective.applyRewards(player);
+        if (speech.getType() == SpeechType.BUBBLE && !interaction.isAllLinesWritten()) {
+            List<String> lines = new ArrayList<>(speechStage.getLines());
+            interaction.setWrittenLines(lines);
+            return;
+        }
 
-        //continue with next speech stage
+        if (speechStage.getConditions() != null) {
+            if (!speechStage.testConditions(player)) {
+                invalidate(player.getUniqueId());
+                return;
+            }
+
+            speechStage.applyConditions(player);
+        }
+
+        speechStage.applyRewards(player);
+
+        interaction.increaseSpeechStage();
+        interaction.setAllLinesWritten(false);
+        interaction.setWrittenLines(null);
+
+        SpeechWriter.runTask(this.plugin, interaction, speech);
     }
 
     public void invalidate(@NotNull UUID uuid) {
