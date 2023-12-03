@@ -4,5 +4,5 @@ version: 1.0.0
 api-version: 1.15
 author: Kafein
 main: dev.kafein.interactivenpcs.plugin.loader.BukkitPluginLoader
-depend: [ProtocolLib]
+depend: [ProtocolLib, PlaceholderAPI]
 softdepend: [Vault, Citizens]

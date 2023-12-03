@@ -2,6 +2,7 @@ package dev.kafein.interactivenpcs.compatibility;
 
 public enum CompatibilityType {
     VAULT("Vault"),
+    PLACEHOLDER_API("PlaceholderAPI"),
     CITIZENS("Citizens");
 
     private final String pluginName;

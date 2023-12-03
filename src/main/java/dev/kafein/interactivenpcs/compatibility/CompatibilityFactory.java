@@ -16,7 +16,7 @@ public final class CompatibilityFactory {
             case CITIZENS:
                 return new CitizensCompatibility(plugin);
             default:
-                throw new IllegalArgumentException("Unknown compatibility type: " + type);
+                return null;
         }
     }
 }

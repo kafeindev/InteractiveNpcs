@@ -25,7 +25,7 @@ public final class CitizensCompatibility implements Compatibility, Listener {
         pluginManager.registerEvents(this, this.plugin.getPlugin());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onClick(NPCRightClickEvent event) {
         NPC npc = event.getNPC();
 
