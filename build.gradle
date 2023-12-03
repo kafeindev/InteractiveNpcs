@@ -22,6 +22,7 @@ repositories {
     maven { url = 'https://repo.papermc.io/repository/maven-public/' }
     maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     maven { url = 'https://maven.citizensnpcs.co/repo' }
+    maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
 }
 
 dependencies {
@@ -56,6 +57,7 @@ dependencies {
 
     compileOnly 'com.comphenix.protocol:ProtocolLib:5.0.0-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7.1'
+    compileOnly 'me.clip:placeholderapi:2.11.5'
     compileOnly 'net.citizensnpcs:citizensapi:2.0.30-SNAPSHOT'
 
     compileOnly 'org.jetbrains:annotations:23.0.0'
@@ -69,6 +71,7 @@ shadowJar {
     archiveFileName = 'InteractiveNpcs-' + project.version + '.jar'
 
     relocate 'ninja.leaping.configurate', project.group + '.libs.configurate'
+    relocate 'net.kyori', project.group + '.libs.adventure'
 }
 
 artifacts {
