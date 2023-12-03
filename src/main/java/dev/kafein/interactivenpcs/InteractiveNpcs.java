@@ -6,6 +6,9 @@ import dev.kafein.interactivenpcs.commands.InteractionCommand;
 import dev.kafein.interactivenpcs.compatibility.Compatibility;
 import dev.kafein.interactivenpcs.compatibility.CompatibilityFactory;
 import dev.kafein.interactivenpcs.compatibility.CompatibilityType;
+import dev.kafein.interactivenpcs.configuration.Config;
+import dev.kafein.interactivenpcs.configuration.ConfigVariables;
+import dev.kafein.interactivenpcs.font.CharWidthMap;
 import dev.kafein.interactivenpcs.interaction.InteractionManager;
 import dev.kafein.interactivenpcs.plugin.AbstractBukkitPlugin;
 import dev.kafein.interactivenpcs.tasks.MovementControlTask;
@@ -18,6 +21,7 @@ import java.util.Set;
 
 public final class InteractiveNpcs extends AbstractBukkitPlugin {
     private InteractionManager interactionManager;
+    private CharWidthMap charWidthMap;
 
     public InteractiveNpcs(Plugin plugin) {
         super(plugin);
@@ -28,6 +32,9 @@ public final class InteractiveNpcs extends AbstractBukkitPlugin {
 
     @Override
     public void onEnable() {
+        this.charWidthMap = new CharWidthMap(this);
+        this.charWidthMap.initialize();
+
         this.interactionManager = new InteractionManager(this);
 
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -37,7 +44,9 @@ public final class InteractiveNpcs extends AbstractBukkitPlugin {
             }
 
             Compatibility compatibility = CompatibilityFactory.createCompatibility(compatibilityType, this);
-            compatibility.initialize();
+            if (compatibility != null) {
+                compatibility.initialize();
+            }
         }
     }
 
@@ -66,10 +75,15 @@ public final class InteractiveNpcs extends AbstractBukkitPlugin {
 
     @Override
     public void loadConfigs() {
-
+        Config settingsConfig = getConfigManager().register("settings", getClass(), "/settings.yml", "settings.yml");
+        getConfigManager().injectKeys(ConfigVariables.class, settingsConfig);
     }
 
     public InteractionManager getInteractionManager() {
         return this.interactionManager;
+    }
+
+    public CharWidthMap getCharWidthMap() {
+        return this.charWidthMap;
     }
 }
