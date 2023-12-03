@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.objective;
+package dev.kafein.interactivenpcs.speech.reward;
 
 import com.google.common.collect.ImmutableMap;
 import org.bukkit.Location;

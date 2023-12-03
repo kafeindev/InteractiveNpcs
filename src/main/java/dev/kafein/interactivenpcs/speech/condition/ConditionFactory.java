@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.objective.condition;
+package dev.kafein.interactivenpcs.speech.condition;
 
 import org.bukkit.inventory.ItemStack;
 

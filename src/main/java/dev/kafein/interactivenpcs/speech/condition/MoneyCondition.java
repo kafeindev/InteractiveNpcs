@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.objective.condition;
+package dev.kafein.interactivenpcs.speech.condition;
 
 import dev.kafein.interactivenpcs.compatibility.implementation.VaultCompatibility;
 import org.bukkit.entity.Player;
