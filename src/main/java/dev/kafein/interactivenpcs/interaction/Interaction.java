@@ -1,5 +1,6 @@
 package dev.kafein.interactivenpcs.interaction;
 
+import dev.kafein.interactivenpcs.npc.NpcProperties;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 public final class Interaction {
     private final UUID playerUniqueId;
     private final Location firstLocation;
-    private final TargetNpc targetNpc;
+    private final NpcProperties npcProperties;
 
     private int clickCount;
     private boolean focused;
@@ -21,19 +22,19 @@ public final class Interaction {
 
     private Location lastLocation;
 
-    public Interaction(UUID playerUniqueId, Location firstLocation, TargetNpc targetNpc) {
+    public Interaction(UUID playerUniqueId, Location firstLocation, NpcProperties npcProperties) {
         this.playerUniqueId = playerUniqueId;
         this.firstLocation = firstLocation;
-        this.targetNpc = targetNpc;
+        this.npcProperties = npcProperties;
         this.lastLocation = firstLocation;
     }
 
-    public static Interaction of(Player player, TargetNpc targetNpc) {
-        return new Interaction(player.getUniqueId(), player.getLocation().clone(), targetNpc);
+    public static Interaction of(Player player, NpcProperties npcProperties) {
+        return new Interaction(player.getUniqueId(), player.getLocation().clone(), npcProperties);
     }
 
-    public static Interaction of(UUID playerUniqueId, Location firstLocation, TargetNpc targetNpc) {
-        return new Interaction(playerUniqueId, firstLocation, targetNpc);
+    public static Interaction of(UUID playerUniqueId, Location firstLocation, NpcProperties npcProperties) {
+        return new Interaction(playerUniqueId, firstLocation, npcProperties);
     }
 
     public UUID getPlayerUniqueId() {
@@ -44,8 +45,12 @@ public final class Interaction {
         return this.firstLocation;
     }
 
-    public TargetNpc getTargetNpc() {
-        return this.targetNpc;
+    public NpcProperties getNpcProperties() {
+        return this.npcProperties;
+    }
+
+    public int getNpcId() {
+        return this.npcProperties.getId();
     }
 
     public int getClickCount() {
@@ -112,7 +117,7 @@ public final class Interaction {
         Interaction other = (Interaction) obj;
         return Objects.equals(this.playerUniqueId, other.playerUniqueId)
                 && Objects.equals(this.firstLocation, other.firstLocation)
-                && Objects.equals(this.targetNpc, other.targetNpc)
+                && Objects.equals(this.npcProperties, other.npcProperties)
                 && this.clickCount == other.clickCount
                 && this.focused == other.focused
                 && this.speechStage == other.speechStage
@@ -123,7 +128,7 @@ public final class Interaction {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.playerUniqueId, this.firstLocation, this.targetNpc, this.clickCount, this.focused, this.speechStage, this.writtenLines, this.allLinesWritten, this.lastLocation);
+        return Objects.hash(this.playerUniqueId, this.firstLocation, this.npcProperties, this.clickCount, this.focused, this.speechStage, this.writtenLines, this.allLinesWritten, this.lastLocation);
     }
 
     @Override
@@ -131,7 +136,7 @@ public final class Interaction {
         return "Interaction{"
                 + "playerUniqueId=" + this.playerUniqueId
                 + ", firstLocation=" + this.firstLocation
-                + ", targetNpc=" + this.targetNpc
+                + ", npcProperties=" + this.npcProperties
                 + ", clickCount=" + this.clickCount
                 + ", focused=" + this.focused
                 + ", speechStage=" + this.speechStage

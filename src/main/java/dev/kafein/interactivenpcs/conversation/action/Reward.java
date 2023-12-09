@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.speech.reward;
+package dev.kafein.interactivenpcs.conversation.action;
 
 import com.google.common.collect.ImmutableMap;
 import org.bukkit.Location;
@@ -22,6 +22,10 @@ public final class Reward {
     public Reward(List<String> commands, List<ItemStack> items) {
         this.commands = commands;
         this.items = items;
+    }
+
+    public static Reward of(List<String> commands, List<ItemStack> items) {
+        return new Reward(commands, items);
     }
 
     public void apply(@NotNull Player player) {

@@ -5,7 +5,7 @@ import dev.kafein.interactivenpcs.InteractiveNpcs;
 import dev.kafein.interactivenpcs.direction.Direction;
 import dev.kafein.interactivenpcs.direction.DirectionAdjuster;
 import dev.kafein.interactivenpcs.interaction.Interaction;
-import dev.kafein.interactivenpcs.interaction.TargetNpc;
+import dev.kafein.interactivenpcs.npc.NpcProperties;
 import dev.kafein.interactivenpcs.npc.Focus;
 import dev.kafein.interactivenpcs.npc.InteractiveNpc;
 import org.bukkit.Bukkit;
@@ -33,9 +33,9 @@ public final class MovementControlTask implements Runnable {
                 return;
             }
 
-            TargetNpc targetNpc = interact.getTargetNpc();
+            NpcProperties npcProperties = interact.getNpcProperties();
 
-            InteractiveNpc interactiveNpc = this.plugin.getInteractionManager().getNpcs().getIfPresent(targetNpc.getId());
+            InteractiveNpc interactiveNpc = this.plugin.getInteractionManager().getNpcs().getIfPresent(npcProperties.getId());
             if (interactiveNpc == null) {
                 this.plugin.getInteractionManager().invalidate(uuid);
                 return;
@@ -60,7 +60,7 @@ public final class MovementControlTask implements Runnable {
                 return;
             }
 
-            Location npcEyeLocation = targetNpc.getEyeLocation().clone();
+            Location npcEyeLocation = npcProperties.getEyeLocation().clone();
             Direction direction = new Direction(playerLocation);
             Direction targetDirection = new Direction(playerLocation, npcEyeLocation);
 

@@ -6,11 +6,11 @@ import com.google.common.cache.CacheBuilder;
 import dev.kafein.interactivenpcs.InteractiveNpcs;
 import dev.kafein.interactivenpcs.npc.Focus;
 import dev.kafein.interactivenpcs.npc.InteractiveNpc;
+import dev.kafein.interactivenpcs.npc.NpcProperties;
 import dev.kafein.interactivenpcs.packet.PacketContainerFactory;
-import dev.kafein.interactivenpcs.speech.Speech;
-import dev.kafein.interactivenpcs.speech.SpeechStage;
-import dev.kafein.interactivenpcs.speech.SpeechType;
-import dev.kafein.interactivenpcs.speech.SpeechWriter;
+import dev.kafein.interactivenpcs.conversation.Conversation;
+import dev.kafein.interactivenpcs.conversation.ConversationType;
+import dev.kafein.interactivenpcs.conversation.ConversationWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -33,19 +33,23 @@ public final class InteractionManager {
                 .build();
     }
 
-    public void interact(@NotNull UUID uuid, @NotNull TargetNpc targetNpc) {
+    public void initialize() {
+
+    }
+
+    public void interact(@NotNull UUID uuid, @NotNull NpcProperties npcProperties) {
         Player player = Bukkit.getPlayer(uuid);
         if (player != null) {
-            interact(player, targetNpc);
+            interact(player, npcProperties);
         }
     }
 
-    public void interact(@NotNull Player player, @NotNull TargetNpc targetNpc) {
+    public void interact(@NotNull Player player, @NotNull NpcProperties npcProperties) {
         Interaction interaction = this.interactions.getIfPresent(player.getUniqueId());
         if (interaction != null) {
             interact(player, interaction);
         } else {
-            Interaction newInteraction = Interaction.of(player, targetNpc);
+            Interaction newInteraction = Interaction.of(player, npcProperties);
             this.interactions.put(player.getUniqueId(), newInteraction);
 
             interact(player, newInteraction);
@@ -53,7 +57,7 @@ public final class InteractionManager {
     }
 
     public void interact(@NotNull Player player, @NotNull Interaction interaction) {
-        InteractiveNpc interactiveNpc = this.npcs.getIfPresent(interaction.getTargetNpc().getId());
+        InteractiveNpc interactiveNpc = this.npcs.getIfPresent(interaction.getNpcId());
         if (interactiveNpc == null) {
             invalidate(player.getUniqueId());
             return;
@@ -70,23 +74,23 @@ public final class InteractionManager {
             this.plugin.getProtocolManager().sendServerPacket(player, packetContainer);
         }
 
-        Speech speech = interactiveNpc.getSpeech();
-        if (speech == null) {
+        Conversation conversation = interactiveNpc.getSpeech();
+        if (conversation == null) {
             return;
         }
 
         if (interaction.increaseClickCount() == 1) {
-            SpeechWriter.runTask(this.plugin, interaction, speech);
+            ConversationWriter.runTask(this.plugin, interaction, conversation);
             return;
         }
 
-        SpeechStage speechStage = speech.getStage(interaction.getSpeechStage());
+        SpeechStage speechStage = conversation.getStage(interaction.getSpeechStage());
         if (speechStage == null) {
             invalidate(player.getUniqueId());
             return;
         }
 
-        if (speech.getType() == SpeechType.BUBBLE && !interaction.isAllLinesWritten()) {
+        if (conversation.getType() == ConversationType.BUBBLE && !interaction.isAllLinesWritten()) {
             List<String> lines = new ArrayList<>(speechStage.getLines());
             interaction.setWrittenLines(lines);
             return;
@@ -107,7 +111,7 @@ public final class InteractionManager {
         interaction.setAllLinesWritten(false);
         interaction.setWrittenLines(null);
 
-        SpeechWriter.runTask(this.plugin, interaction, speech);
+        ConversationWriter.runTask(this.plugin, interaction, conversation);
     }
 
     public void invalidate(@NotNull UUID uuid) {

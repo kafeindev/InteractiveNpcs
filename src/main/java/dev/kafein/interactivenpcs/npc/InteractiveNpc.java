@@ -1,38 +1,38 @@
 package dev.kafein.interactivenpcs.npc;
 
-import dev.kafein.interactivenpcs.speech.Speech;
+import dev.kafein.interactivenpcs.conversation.Conversation;
 
 import java.util.Objects;
 
 public final class InteractiveNpc {
-    private final int id;
+    private final NpcProperties properties;
     private final Focus focus;
-    private final Speech speech;
+    private final Conversation conversation;
 
-    public InteractiveNpc(int id, Focus focus, Speech speech) {
-        this.id = id;
+    public InteractiveNpc(NpcProperties properties, Focus focus, Conversation conversation) {
+        this.properties = properties;
         this.focus = focus;
-        this.speech = speech;
+        this.conversation = conversation;
     }
 
-    public static InteractiveNpc of(int id, Speech speech) {
-        return new InteractiveNpc(id, Focus.defaultFocus(), speech);
+    public static InteractiveNpc of(NpcProperties properties, Conversation conversation) {
+        return new InteractiveNpc(properties, Focus.defaultFocus(), conversation);
     }
 
-    public static InteractiveNpc of(int id, Focus focus, Speech speech) {
-        return new InteractiveNpc(id, focus, speech);
+    public static InteractiveNpc of(NpcProperties properties, Focus focus, Conversation conversation) {
+        return new InteractiveNpc(properties, focus, conversation);
     }
 
-    public int getId() {
-        return this.id;
+    public NpcProperties getProperties() {
+        return this.properties;
     }
 
     public Focus getFocus() {
         return this.focus;
     }
 
-    public Speech getSpeech() {
-        return this.speech;
+    public Conversation getSpeech() {
+        return this.conversation;
     }
 
     @Override
@@ -45,20 +45,22 @@ public final class InteractiveNpc {
         }
 
         InteractiveNpc other = (InteractiveNpc) obj;
-        return this.id == other.id;
+        return Objects.equals(this.properties, other.properties)
+                && Objects.equals(this.focus, other.focus)
+                && Objects.equals(this.conversation, other.conversation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.focus, this.speech);
+        return Objects.hash(this.properties, this.focus, this.conversation);
     }
 
     @Override
     public String toString() {
         return "InteractiveNpc{" +
-                "id=" + this.id +
+                "properties=" + this.properties +
                 ", focus=" + this.focus +
-                ", speech=" + this.speech +
+                ", speech=" + this.conversation +
                 '}';
     }
 }

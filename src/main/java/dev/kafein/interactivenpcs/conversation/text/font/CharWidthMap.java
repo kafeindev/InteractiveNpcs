@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.font;
+package dev.kafein.interactivenpcs.conversation.text.font;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

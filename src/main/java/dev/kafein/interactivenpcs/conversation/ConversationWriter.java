@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.speech;
+package dev.kafein.interactivenpcs.conversation;
 
 import dev.kafein.interactivenpcs.InteractiveNpcs;
 import dev.kafein.interactivenpcs.configuration.ConfigVariables;
@@ -20,31 +20,29 @@ import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public final class SpeechWriter extends BukkitRunnable {
+public final class ConversationWriter extends BukkitRunnable {
     private static final String RESET_TAG = "<reset>";
 
     private final InteractiveNpcs plugin;
 
     private final Interaction interaction;
-    private final Speech speech;
+    private final Conversation conversation;
     private final String offsetSymbol;
 
     private final Player player;
     private final Audience audience;
 
-    private int tick = 0;
-
-    public SpeechWriter(InteractiveNpcs plugin, Interaction interaction, Speech speech) {
+    public ConversationWriter(InteractiveNpcs plugin, Interaction interaction, Conversation conversation) {
         this.plugin = plugin;
         this.interaction = interaction;
-        this.speech = speech;
+        this.conversation = conversation;
         this.player = Bukkit.getPlayer(this.interaction.getPlayerUniqueId());
         this.audience = plugin.getBukkitAudiences().player(checkNotNull(this.player));
         this.offsetSymbol = PlaceholderAPI.setPlaceholders(this.player, ConfigVariables.OFFSET_SYMBOL.getValue());
     }
 
-    public static void runTask(InteractiveNpcs plugin, Interaction interaction, Speech speech) {
-        SpeechWriter writer = new SpeechWriter(plugin, interaction, speech);
+    public static void runTask(InteractiveNpcs plugin, Interaction interaction, Conversation conversation) {
+        ConversationWriter writer = new ConversationWriter(plugin, interaction, conversation);
         writer.runTaskTimer(plugin.getPlugin(), 0L, 1L);
     }
 
@@ -59,25 +57,20 @@ public final class SpeechWriter extends BukkitRunnable {
             cancel();
             return;
         }
-
-        SpeechStage stage = this.speech.getStage(this.interaction.getSpeechStage());
+/*
+        SpeechStage stage = this.conversation.getStage(this.interaction.getSpeechStage());
         if (stage == null) {
             cancel();
             return;
         }
 
-        if (++this.tick % stage.getSlowness() != 0) {
-            return;
-        }
-
         List<String> lines = new ArrayList<>(stage.getLines());
 
-        SpeechType type = this.speech.getType();
-        if (type == SpeechType.CHAT) {
-            lines.forEach(line -> {
-                Component component = MiniMessage.miniMessage().deserialize(line);
-                this.audience.sendMessage(component);
-            });
+        ConversationType type = this.conversation.getType();
+        if (type == ConversationType.CHAT) {
+            String formatted = String.join("\n", lines);
+            Component component = MiniMessage.miniMessage().deserialize(formatted);
+            this.audience.sendMessage(component);
 
             this.interaction.setWrittenLines(lines);
             cancel();
@@ -94,11 +87,11 @@ public final class SpeechWriter extends BukkitRunnable {
 
         StringBuilder builder = new StringBuilder();
         builder.append(RESET_TAG);
-        builder.append(Strings.repeat(offsetSymbol, this.speech.getImageWidth() / 2));
-        builder.append(Strings.repeat(offsetSymbol, this.speech.getLinesOffset()));
-        builder.append(this.speech.getImageSymbol());
-        builder.append(Strings.repeat(offsetSymbol, this.speech.getImageWidth() / 2));
-        builder.append(Strings.repeat(offsetSymbol, this.speech.getLinesOffset()));
+        builder.append(Strings.repeat(this.offsetSymbol, this.conversation.getImageWidth() / 2));
+        builder.append(Strings.repeat(this.offsetSymbol, this.conversation.getLinesOffset()));
+        builder.append(this.conversation.getImageSymbol());
+        builder.append(Strings.repeat(this.offsetSymbol, this.conversation.getImageWidth() / 2));
+        builder.append(Strings.repeat(this.offsetSymbol, this.conversation.getLinesOffset()));
 
         for (int i = 0; i < writtenLines.size(); i++) {
             String line = writtenLines.get(i);
@@ -109,21 +102,21 @@ public final class SpeechWriter extends BukkitRunnable {
                 width += this.plugin.getCharWidthMap().get(character);
 
                 builder.append(RESET_TAG);
-                builder.append(offsetSymbol);
-                builder.append(ConfigVariables.SPEECH_FONTS.getValue().get(i));
+                builder.append(this.offsetSymbol);
+                builder.append(ConfigVariables.SPEECH_BUBBLE_LINES_FONTS.getValue().get(i));
                 builder.append(ConfigVariables.SPEECH_BUBBLE_LINES_DEFAULT_COLOR.getValue());
                 builder.append(character);
             }
 
             builder.append(RESET_TAG);
-            builder.append(Strings.repeat(offsetSymbol, width));
+            builder.append(Strings.repeat(this.offsetSymbol, width));
         }
 
         Component component = MiniMessage.miniMessage().deserialize(builder.toString());
         Title.Times times = Title.Times.times(Duration.ZERO, Duration.ofSeconds(1), Duration.ZERO);
 
         Title title = Title.title(Component.empty(), component, times);
-        this.audience.showTitle(title);
+        this.audience.showTitle(title);*/
     }
 
     private void writeCharsFromLine(List<String> writtenLines, List<String> lines) {
@@ -141,6 +134,8 @@ public final class SpeechWriter extends BukkitRunnable {
                 if (index != -1) {
                     line = line + lineToWrite.substring(line.length(), index + 1);
                 }
+            } else if (character == '&' || character == '§'){
+                line = line + lineToWrite.substring(line.length(), line.length() + 2);
             } else {
                 line = line + character;
             }

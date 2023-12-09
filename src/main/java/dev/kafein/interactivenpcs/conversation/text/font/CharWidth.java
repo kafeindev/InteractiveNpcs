@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.font;
+package dev.kafein.interactivenpcs.conversation.text.font;
 
 public enum CharWidth {
     A(3),

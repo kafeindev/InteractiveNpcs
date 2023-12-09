@@ -1,14 +1,15 @@
-package dev.kafein.interactivenpcs.interaction;
+package dev.kafein.interactivenpcs.npc;
 
 import org.bukkit.Location;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public final class TargetNpc {
+public final class NpcProperties {
     private final int id;
-    private final Location eyeLocation;
+    private final @Nullable Location eyeLocation;
 
-    public TargetNpc(int id, Location eyeLocation) {
+    public NpcProperties(int id, @Nullable Location eyeLocation) {
         this.id = id;
         this.eyeLocation = eyeLocation;
     }
@@ -17,21 +18,21 @@ public final class TargetNpc {
         return this.id;
     }
 
-    public Location getEyeLocation() {
+    public @Nullable Location getEyeLocation() {
         return this.eyeLocation;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof TargetNpc)) {
+        if (!(obj instanceof NpcProperties)) {
             return false;
         }
         if (obj == this) {
             return true;
         }
 
-        TargetNpc other = (TargetNpc) obj;
-        return other.id == this.id;
+        NpcProperties other = (NpcProperties) obj;
+        return other.id == this.id && Objects.equals(other.eyeLocation, this.eyeLocation);
     }
 
     @Override
@@ -41,7 +42,7 @@ public final class TargetNpc {
 
     @Override
     public String toString() {
-        return "TargetNpc{" +
+        return "NpcProperties{" +
                 "id=" + this.id +
                 ", eyeLocation=" + this.eyeLocation +
                 '}';
