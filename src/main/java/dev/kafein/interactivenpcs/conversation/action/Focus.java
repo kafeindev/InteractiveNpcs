@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.npc;
+package dev.kafein.interactivenpcs.conversation.action;
 
 import java.util.Objects;
 
