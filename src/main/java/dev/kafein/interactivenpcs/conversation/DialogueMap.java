@@ -5,9 +5,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.Function;
 
 public final class DialogueMap {
     private static final Comparator<Dialogue> COMPARATOR = Comparator.comparingInt(Dialogue::getOrder);
+    private static final Function<Map<String, Dialogue>, Map<String, Dialogue>> SORTER = map -> {
+        Map<String, Dialogue> sortedMap = Maps.newHashMap();
+        map.values().stream()
+                .sorted(COMPARATOR)
+                .forEach(dialogue -> sortedMap.put(dialogue.getId(), dialogue));
+
+        return sortedMap;
+    };
 
     private final Map<String, Dialogue> dialogueMap;
 
@@ -16,7 +25,7 @@ public final class DialogueMap {
     }
 
     public DialogueMap(Map<String, Dialogue> dialogueMap) {
-        this.dialogueMap = dialogueMap;
+        this.dialogueMap = SORTER.apply(dialogueMap);
     }
 
     public static DialogueMap empty() {
@@ -38,15 +47,6 @@ public final class DialogueMap {
 
     public Map<String, Dialogue> getDialogueMap() {
         return this.dialogueMap;
-    }
-
-    public Map<String, Dialogue> getSortedDialogueMap() {
-        Map<String, Dialogue> sortedMap = Maps.newLinkedHashMap();
-        this.dialogueMap.values().stream()
-                .sorted(COMPARATOR)
-                .forEach(dialogue -> sortedMap.put(dialogue.getId(), dialogue));
-
-        return sortedMap;
     }
 
     public @Nullable Dialogue get(String id) {
