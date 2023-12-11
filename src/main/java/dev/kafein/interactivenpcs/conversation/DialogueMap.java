@@ -40,7 +40,7 @@ public final class DialogueMap {
         return this.dialogueMap;
     }
 
-    public Map<String, Dialogue> getDialogueSortedMap() {
+    public Map<String, Dialogue> getSortedDialogueMap() {
         Map<String, Dialogue> sortedMap = Maps.newLinkedHashMap();
         this.dialogueMap.values().stream()
                 .sorted(COMPARATOR)
