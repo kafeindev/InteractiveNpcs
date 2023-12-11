@@ -1,4 +1,4 @@
-package dev.kafein.interactivenpcs.conversation.action;
+package dev.kafein.interactivenpcs.conversation;
 
 import org.bukkit.Location;
 
