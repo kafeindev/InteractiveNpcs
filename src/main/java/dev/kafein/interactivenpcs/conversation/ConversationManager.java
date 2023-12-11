@@ -1,5 +1,4 @@
 package dev.kafein.interactivenpcs.conversation;
 
-public class Button {
-
+public class ConversationManager {
 }
