@@ -3,21 +3,9 @@ package dev.kafein.interactivenpcs.conversation;
 import com.google.common.collect.Maps;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Comparator;
 import java.util.Map;
-import java.util.function.Function;
 
 public final class DialogueMap {
-    private static final Comparator<Dialogue> COMPARATOR = Comparator.comparingInt(Dialogue::getOrder);
-    private static final Function<Map<String, Dialogue>, Map<String, Dialogue>> SORTER = map -> {
-        Map<String, Dialogue> sortedMap = Maps.newHashMap();
-        map.values().stream()
-                .sorted(COMPARATOR)
-                .forEach(dialogue -> sortedMap.put(dialogue.getId(), dialogue));
-
-        return sortedMap;
-    };
-
     private final Map<String, Dialogue> dialogueMap;
 
     public DialogueMap() {
@@ -25,7 +13,7 @@ public final class DialogueMap {
     }
 
     public DialogueMap(Map<String, Dialogue> dialogueMap) {
-        this.dialogueMap = SORTER.apply(dialogueMap);
+        this.dialogueMap = dialogueMap;
     }
 
     public static DialogueMap empty() {
