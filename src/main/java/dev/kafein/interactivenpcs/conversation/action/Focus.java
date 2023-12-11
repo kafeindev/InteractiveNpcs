@@ -1,24 +1,28 @@
 package dev.kafein.interactivenpcs.conversation.action;
 
+import org.bukkit.Location;
+
 import java.util.Objects;
 
 public final class Focus {
-    private final float speed;
+    private final Location target;
+    private final float speed; // direction speed
     private final float fov; // between 1.0 and 10.0
     private final double maxDistance;
 
-    public Focus(float speed, float fov, double maxDistance) {
+    public Focus(Location target, float speed, float fov, double maxDistance) {
+        this.target = target;
         this.speed = speed;
         this.fov = fov;
         this.maxDistance = maxDistance;
     }
 
-    public static Focus defaultFocus() {
-        return new Focus(10.0f, 0.5f, 3.0);
+    public static Focus of(Location target, float speed, float fov, double maxDistance) {
+        return new Focus(target, speed, fov, maxDistance);
     }
 
-    public static Focus of(float speed, float fov, double maxDistance) {
-        return new Focus(speed, fov, maxDistance);
+    public Location getTarget() {
+        return this.target;
     }
 
     public float getSpeed() {
@@ -43,18 +47,22 @@ public final class Focus {
         }
 
         Focus other = (Focus) obj;
-        return this.speed == other.speed && this.fov == other.fov && this.maxDistance == other.maxDistance;
+        return this.target.equals(other.target)
+                && this.speed == other.speed
+                && this.fov == other.fov
+                && this.maxDistance == other.maxDistance;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.speed, this.fov, this.maxDistance);
+        return Objects.hash(this.target, this.speed, this.fov, this.maxDistance);
     }
 
     @Override
     public String toString() {
         return "Focus{"
-                + "speed=" + this.speed
+                + "target=" + this.target
+                + ", speed=" + this.speed
                 + ", fov=" + this.fov
                 + ", maxDistance=" + this.maxDistance
                 + "}";
