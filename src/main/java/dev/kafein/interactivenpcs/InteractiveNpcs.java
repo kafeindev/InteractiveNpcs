@@ -8,8 +8,8 @@ import dev.kafein.interactivenpcs.compatibility.CompatibilityFactory;
 import dev.kafein.interactivenpcs.compatibility.CompatibilityType;
 import dev.kafein.interactivenpcs.configuration.Config;
 import dev.kafein.interactivenpcs.configuration.ConfigVariables;
-import dev.kafein.interactivenpcs.font.CharWidthMap;
-import dev.kafein.interactivenpcs.interaction.InteractionManager;
+import dev.kafein.interactivenpcs.conversation.ConversationManager;
+import dev.kafein.interactivenpcs.conversation.text.font.CharWidthMap;
 import dev.kafein.interactivenpcs.plugin.AbstractBukkitPlugin;
 import dev.kafein.interactivenpcs.tasks.MovementControlTask;
 import org.bukkit.Bukkit;
@@ -20,7 +20,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.util.Set;
 
 public final class InteractiveNpcs extends AbstractBukkitPlugin {
-    private InteractionManager interactionManager;
+    private ConversationManager conversationManager;
     private CharWidthMap charWidthMap;
 
     public InteractiveNpcs(Plugin plugin) {
@@ -35,7 +35,8 @@ public final class InteractiveNpcs extends AbstractBukkitPlugin {
         this.charWidthMap = new CharWidthMap(this);
         this.charWidthMap.initialize();
 
-        this.interactionManager = new InteractionManager(this);
+        this.conversationManager = new ConversationManager(this);
+        this.conversationManager.initialize();
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         for (CompatibilityType compatibilityType : CompatibilityType.values()) {
@@ -79,8 +80,8 @@ public final class InteractiveNpcs extends AbstractBukkitPlugin {
         getConfigManager().injectKeys(ConfigVariables.class, settingsConfig);
     }
 
-    public InteractionManager getInteractionManager() {
-        return this.interactionManager;
+    public ConversationManager getConversationManager() {
+        return this.conversationManager;
     }
 
     public CharWidthMap getCharWidthMap() {
