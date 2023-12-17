@@ -1,40 +1,65 @@
 package dev.kafein.interactivenpcs.conversation;
 
+import dev.kafein.interactivenpcs.conversation.text.TextRenderer;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import java.util.Objects;
+import java.util.UUID;
 
 public final class Conversation {
-    private final String name;
-    private final ConversationOptions options;
-    private final DialogueMap dialogueMap;
+    private final int interactedEntityId;
+    private final Interactant interactant;
 
-    public Conversation(String name, ConversationOptions options) {
-        this(name, options, new DialogueMap());
+    private TextRenderer textRenderer;
+
+    public Conversation(int interactedEntityId, UUID playerUniqueId, String playerName, Location firstLocation) {
+        this.interactedEntityId = interactedEntityId;
+        this.interactant = Interactant.of(playerUniqueId, playerName, firstLocation);
     }
 
-    public Conversation(String name, ConversationOptions options, DialogueMap dialogueMap) {
-        this.name = name;
-        this.options = options;
-        this.dialogueMap = dialogueMap;
+    public static Conversation of(int interactedEntityId, Player player) {
+        return new Conversation(interactedEntityId, player.getUniqueId(), player.getName(), player.getLocation().clone());
     }
 
-    public static Conversation of(String name, ConversationOptions options) {
-        return new Conversation(name, options);
+    public static Conversation of(int interactedEntityId, UUID playerUniqueId, String playerName, Location firstLocation) {
+        return new Conversation(interactedEntityId, playerUniqueId, playerName, firstLocation);
     }
 
-    public static Conversation of(String name, ConversationOptions options, DialogueMap dialogueMap) {
-        return new Conversation(name, options, dialogueMap);
+    public int getInteractedEntityId() {
+        return this.interactedEntityId;
     }
 
-    public String getName() {
-        return this.name;
+    public Interactant getInteractant() {
+        return this.interactant;
     }
 
-    public ConversationOptions getOptions() {
-        return this.options;
+    public UUID getInteractantUniqueId() {
+        return this.interactant.getUniqueId();
     }
 
-    public DialogueMap getDialogueMap() {
-        return this.dialogueMap;
+    public String getInteractantName() {
+        return this.interactant.getName();
+    }
+
+    public Location getFirstLocation() {
+        return this.interactant.getFirstLocation();
+    }
+
+    public Location getLastLocation() {
+        return this.interactant.getLastLocation();
+    }
+
+    public void setLastLocation(Location lastLocation) {
+        this.interactant.setLastLocation(lastLocation);
+    }
+
+    public TextRenderer getTextRenderer() {
+        return this.textRenderer;
+    }
+
+    public void setTextRenderer(TextRenderer textRenderer) {
+        this.textRenderer = textRenderer;
     }
 
     @Override
@@ -47,22 +72,22 @@ public final class Conversation {
         }
 
         Conversation other = (Conversation) obj;
-        return Objects.equals(this.name, other.name)
-                && Objects.equals(this.options, other.options)
-                && Objects.equals(this.dialogueMap, other.dialogueMap);
+        return this.interactedEntityId == other.interactedEntityId
+                && this.interactant.equals(other.interactant)
+                && Objects.equals(this.textRenderer, other.textRenderer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.name, this.options, this.dialogueMap);
+        return Objects.hash(this.interactedEntityId, this.interactant, this.textRenderer);
     }
 
     @Override
     public String toString() {
         return "Conversation{" +
-                "name='" + this.name + '\'' +
-                ", options=" + this.options +
-                ", dialogueMap=" + this.dialogueMap +
+                "interactedEntityId=" + this.interactedEntityId +
+                ", interactant=" + this.interactant +
+                ", textRenderer=" + this.textRenderer +
                 '}';
     }
 }
