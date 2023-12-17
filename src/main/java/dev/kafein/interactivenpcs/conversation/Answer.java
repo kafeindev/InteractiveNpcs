@@ -1,19 +1,19 @@
 package dev.kafein.interactivenpcs.conversation;
 
 import dev.kafein.interactivenpcs.condition.Condition;
-import dev.kafein.interactivenpcs.conversation.text.TextList;
+import dev.kafein.interactivenpcs.conversation.text.TextLines;
 
 import java.util.Objects;
 import java.util.Set;
 
 public final class Answer {
     private final String id;
-    private final TextList textList;
+    private final TextLines textLines;
     private final Set<Condition> conditions;
 
-    public Answer(String id, TextList textList, Set<Condition> conditions) {
+    public Answer(String id, TextLines textLines, Set<Condition> conditions) {
         this.id = id;
-        this.textList = textList;
+        this.textLines = textLines;
         this.conditions = conditions;
     }
 
@@ -21,8 +21,8 @@ public final class Answer {
         return this.id;
     }
 
-    public TextList getTextList() {
-        return this.textList;
+    public TextLines getTextLines() {
+        return this.textLines;
     }
 
     public Set<Condition> getConditions() {
@@ -40,20 +40,20 @@ public final class Answer {
 
         Answer other = (Answer) obj;
         return Objects.equals(this.id, other.id)
-                && Objects.equals(this.textList, other.textList)
+                && Objects.equals(this.textLines, other.textLines)
                 && Objects.equals(this.conditions, other.conditions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.textList, this.conditions);
+        return Objects.hash(this.id, this.textLines, this.conditions);
     }
 
     @Override
     public String toString() {
         return "Answer{" +
                 "id='" + this.id + '\'' +
-                ", textList=" + this.textList +
+                ", textLines=" + this.textLines +
                 ", conditions=" + this.conditions +
                 '}';
     }

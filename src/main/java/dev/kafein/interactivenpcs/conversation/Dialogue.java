@@ -1,38 +1,38 @@
 package dev.kafein.interactivenpcs.conversation;
 
-import dev.kafein.interactivenpcs.conversation.text.TextList;
+import dev.kafein.interactivenpcs.conversation.text.TextLines;
 
 import java.util.Objects;
 
 public final class Dialogue {
     private final String id;
-    private final TextList textList;
+    private final TextLines textLines;
     private final AnswerMap answerMap;
 
-    public Dialogue(String id, TextList textList) {
-        this(id, textList, new AnswerMap());
+    public Dialogue(String id, TextLines textLines) {
+        this(id, textLines, new AnswerMap());
     }
 
-    public Dialogue(String id, TextList textList, AnswerMap answerMap) {
+    public Dialogue(String id, TextLines textLines, AnswerMap answerMap) {
         this.id = id;
-        this.textList = textList;
+        this.textLines = textLines;
         this.answerMap = answerMap;
     }
 
-    public static Dialogue of(String id, TextList textList) {
-        return new Dialogue(id, textList);
+    public static Dialogue of(String id, TextLines textLines) {
+        return new Dialogue(id, textLines);
     }
 
-    public static Dialogue of(String id, TextList textList, AnswerMap answerMap) {
-        return new Dialogue(id, textList, answerMap);
+    public static Dialogue of(String id, TextLines textLines, AnswerMap answerMap) {
+        return new Dialogue(id, textLines, answerMap);
     }
 
     public String getId() {
         return this.id;
     }
 
-    public TextList getTextList() {
-        return this.textList;
+    public TextLines getTextLines() {
+        return this.textLines;
     }
 
     public AnswerMap getAnswerMap() {
@@ -50,20 +50,20 @@ public final class Dialogue {
 
         Dialogue other = (Dialogue) obj;
         return Objects.equals(this.id, other.id)
-                && Objects.equals(this.textList, other.textList)
+                && Objects.equals(this.textLines, other.textLines)
                 && Objects.equals(this.answerMap, other.answerMap);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.textList, this.answerMap);
+        return Objects.hash(this.id, this.textLines, this.answerMap);
     }
 
     @Override
     public String toString() {
         return "Dialogue{" +
                 "id='" + this.id + '\'' +
-                ", textList=" + this.textList +
+                ", textLines=" + this.textLines +
                 ", answerMap=" + this.answerMap +
                 '}';
     }
