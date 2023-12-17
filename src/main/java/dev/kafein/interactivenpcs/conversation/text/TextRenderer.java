@@ -5,8 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public interface TextRenderer {
-    void render(@NotNull List<String> input);
-
     static TextRenderer letterByLetter(@NotNull TextLines textLines) {
         return LetterByLetterTextRenderer.of(textLines.getLines());
     }
@@ -22,4 +20,6 @@ public interface TextRenderer {
     static TextRenderer wordByWord(@NotNull List<String> lines) {
         return WordByWordTextRenderer.of(lines);
     }
+
+    void render(@NotNull List<String> input);
 }
