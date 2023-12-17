@@ -27,10 +27,12 @@ package dev.kafein.interactivenpcs.configuration;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.reflect.TypeToken;
+import dev.kafein.interactivenpcs.configuration.serializers.BukkitItemStackSerializer;
 import dev.kafein.interactivenpcs.configuration.serializers.BukkitLocationSerializer;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +47,7 @@ public final class ConfigManager {
     public static final ConfigurationOptions DEFAULT_OPTIONS = ConfigurationOptions.defaults()
             .withSerializers(collection -> {
                 collection.register(TypeToken.of(Location.class), BukkitLocationSerializer.getInstance());
+                collection.register(TypeToken.of(ItemStack.class), BukkitItemStackSerializer.getInstance());
             });
 
     private final Cache<String, Config> configs;
