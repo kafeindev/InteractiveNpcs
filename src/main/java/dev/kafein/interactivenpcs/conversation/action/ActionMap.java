@@ -21,8 +21,11 @@ public final class ActionMap {
     }
 
     public void initialize() {
-        this.actions.put("close", (player, value) -> {
-            this.plugin.getInteractionManager().invalidate(player.getUniqueId());
+        this.actions.put("transition", (player, value) -> {
+            //
+        });
+        this.actions.put("skip", (player, value) -> {
+            //
         });
         this.actions.put("player-command", (player, value) -> {
             String command = replace(value, ImmutableMap.of("%player%", player.getName()));
