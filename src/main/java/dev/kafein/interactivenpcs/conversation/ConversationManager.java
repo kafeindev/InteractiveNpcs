@@ -10,7 +10,7 @@ import java.util.UUID;
 public final class ConversationManager {
     private final InteractiveNpcs plugin;
 
-    private final Cache<String, InteractiveEntity> interactiveEntities;
+    private final Cache<Integer, InteractiveEntity> interactiveEntities;
     private final Cache<UUID, Conversation> conversations;
 
     public ConversationManager(@NotNull InteractiveNpcs plugin) {
@@ -25,19 +25,19 @@ public final class ConversationManager {
 
     }
 
-    public Cache<String, InteractiveEntity> getInteractiveEntities() {
+    public Cache<Integer, InteractiveEntity> getInteractiveEntities() {
         return this.interactiveEntities;
     }
 
-    public InteractiveEntity getInteractiveEntity(String name) {
+    public InteractiveEntity getInteractiveEntity(int name) {
         return this.interactiveEntities.getIfPresent(name);
     }
 
     public void putInteractiveEntity(InteractiveEntity interactiveEntity) {
-        this.interactiveEntities.put(interactiveEntity.getName(), interactiveEntity);
+        this.interactiveEntities.put(interactiveEntity.getId(), interactiveEntity);
     }
 
-    public void removeInteractiveEntity(String name) {
+    public void removeInteractiveEntity(int name) {
         this.interactiveEntities.invalidate(name);
     }
 
