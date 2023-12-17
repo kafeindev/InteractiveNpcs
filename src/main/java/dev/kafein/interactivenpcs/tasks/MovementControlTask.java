@@ -4,10 +4,7 @@ import com.google.common.cache.Cache;
 import dev.kafein.interactivenpcs.InteractiveNpcs;
 import dev.kafein.interactivenpcs.direction.Direction;
 import dev.kafein.interactivenpcs.direction.DirectionAdjuster;
-import dev.kafein.interactivenpcs.interaction.Interaction;
-import dev.kafein.interactivenpcs.npc.NpcProperties;
-import dev.kafein.interactivenpcs.npc.Focus;
-import dev.kafein.interactivenpcs.npc.InteractiveNpc;
+import dev.kafein.interactivenpcs.conversation.Focus;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -25,7 +22,7 @@ public final class MovementControlTask implements Runnable {
 
     @Override
     public void run() {
-        Cache<UUID, Interaction> interactionCache = this.plugin.getInteractionManager().getInteractions();
+/*        Cache<UUID, Interaction> interactionCache = this.plugin.getInteractionManager().getInteractions();
         interactionCache.asMap().forEach((uuid, interact) -> {
             Player player = Bukkit.getPlayer(uuid);
             if (player == null) {
@@ -70,6 +67,6 @@ public final class MovementControlTask implements Runnable {
                 BukkitRunnable bukkitRunnable = new DirectionAdjuster(this.plugin.getPlugin(), player, targetDirection, focus.getSpeed());
                 bukkitRunnable.runTaskTimer(this.plugin.getPlugin(), 0L, 1L);
             }
-        });
+        });*/
     }
 }
