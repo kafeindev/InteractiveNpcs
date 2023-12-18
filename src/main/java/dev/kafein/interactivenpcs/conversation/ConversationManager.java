@@ -3,6 +3,8 @@ package dev.kafein.interactivenpcs.conversation;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import dev.kafein.interactivenpcs.InteractiveNpcs;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -13,7 +15,7 @@ public final class ConversationManager {
     private final Cache<Integer, InteractiveEntity> interactiveEntities;
     private final Cache<UUID, Conversation> conversations;
 
-    public ConversationManager(@NotNull InteractiveNpcs plugin) {
+    public ConversationManager(InteractiveNpcs plugin) {
         this.plugin = plugin;
         this.interactiveEntities = CacheBuilder.newBuilder()
                 .build();
@@ -25,6 +27,21 @@ public final class ConversationManager {
 
     }
 
+    public void interact(@NotNull UUID interactantUniqueId) {
+        Player player = Bukkit.getPlayer(interactantUniqueId);
+        if (player != null) {
+            this.interact(player);
+        }
+    }
+
+    public void interact(@NotNull Player player) {
+
+    }
+
+    public void interact(@NotNull Conversation conversation) {
+
+    }
+
     public Cache<Integer, InteractiveEntity> getInteractiveEntities() {
         return this.interactiveEntities;
     }
@@ -33,7 +50,7 @@ public final class ConversationManager {
         return this.interactiveEntities.getIfPresent(name);
     }
 
-    public void putInteractiveEntity(InteractiveEntity interactiveEntity) {
+    public void putInteractiveEntity(@NotNull InteractiveEntity interactiveEntity) {
         this.interactiveEntities.put(interactiveEntity.getId(), interactiveEntity);
     }
 
@@ -45,15 +62,15 @@ public final class ConversationManager {
         return this.conversations;
     }
 
-    public Conversation getConversation(UUID uuid) {
+    public Conversation getConversation(@NotNull UUID uuid) {
         return this.conversations.getIfPresent(uuid);
     }
 
-    public void putConversation(Conversation conversation) {
+    public void putConversation(@NotNull Conversation conversation) {
         this.conversations.put(conversation.getInteractantUniqueId(), conversation);
     }
 
-    public void removeConversation(UUID uuid) {
+    public void removeConversation(@NotNull UUID uuid) {
         this.conversations.invalidate(uuid);
     }
 }
