@@ -14,8 +14,12 @@ public final class Conversation {
     private TextRenderer textRenderer;
 
     public Conversation(int interactedEntityId, UUID playerUniqueId, String playerName, Location firstLocation) {
+        this(interactedEntityId, new Interactant(playerUniqueId, playerName, firstLocation));
+    }
+
+    public Conversation(int interactedEntityId, Interactant interactant) {
         this.interactedEntityId = interactedEntityId;
-        this.interactant = Interactant.of(playerUniqueId, playerName, firstLocation);
+        this.interactant = interactant;
     }
 
     public static Conversation of(int interactedEntityId, Player player) {
@@ -24,6 +28,10 @@ public final class Conversation {
 
     public static Conversation of(int interactedEntityId, UUID playerUniqueId, String playerName, Location firstLocation) {
         return new Conversation(interactedEntityId, playerUniqueId, playerName, firstLocation);
+    }
+
+    public static Conversation of(int interactedEntityId, Interactant interactant) {
+        return new Conversation(interactedEntityId, interactant);
     }
 
     public int getInteractedEntityId() {
