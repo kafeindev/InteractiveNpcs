@@ -21,5 +21,7 @@ public interface TextRenderer {
         return WordByWordTextRenderer.of(lines);
     }
 
-    void render(@NotNull List<String> input);
+    List<String> render();
+
+    boolean hasNext();
 }

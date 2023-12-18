@@ -1,28 +1,36 @@
 package dev.kafein.interactivenpcs.conversation.text;
 
-import org.jetbrains.annotations.NotNull;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractTextRenderer implements TextRenderer {
     private final List<String> lines;
+    private final List<String> renderedLines;
+
+    private boolean hasNext = true;
 
     public AbstractTextRenderer(List<String> lines) {
         this.lines = lines;
+        this.renderedLines = new ArrayList<>();
     }
 
     @Override
-    public void render(@NotNull List<String> input) {
-        if (input.isEmpty()) {
-            input.add("");
+    public List<String> render() {
+        if (!this.hasNext || this.renderedLines.equals(this.lines)) {
+            this.hasNext = false;
+            return this.renderedLines;
         }
 
-        String line = input.get(input.size() - 1);
-        String lineToWrite = this.lines.get(input.size() - 1);
+        if (this.renderedLines.isEmpty()) {
+            this.renderedLines.add("");
+        }
+
+        String line = this.renderedLines.get(this.renderedLines.size() - 1);
+        String lineToWrite = this.lines.get(this.renderedLines.size() - 1);
 
         if (line.length() >= lineToWrite.length()) {
-            input.add("");
-            return;
+            this.renderedLines.add("");
+            return this.renderedLines;
         }
 
         char character = lineToWrite.charAt(line.length());
@@ -36,8 +44,15 @@ public abstract class AbstractTextRenderer implements TextRenderer {
         }
 
         line = renderLine(line, lineToWrite);
-        input.set(input.size() - 1, line);
+        this.renderedLines.set(this.renderedLines.size() - 1, line);
+
+        return this.renderedLines;
     }
 
     abstract String renderLine(String line, String lineToWrite);
+
+    @Override
+    public boolean hasNext() {
+        return this.hasNext;
+    }
 }
