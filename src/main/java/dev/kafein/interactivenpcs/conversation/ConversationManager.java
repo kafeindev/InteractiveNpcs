@@ -27,19 +27,44 @@ public final class ConversationManager {
 
     }
 
-    public void interact(@NotNull UUID interactantUniqueId) {
+    public void interact(@NotNull UUID interactantUniqueId, int interactedEntityId) {
         Player player = Bukkit.getPlayer(interactantUniqueId);
         if (player != null) {
-            this.interact(player);
+            this.interact(player, interactedEntityId);
         }
     }
 
-    public void interact(@NotNull Player player) {
+    public void interact(@NotNull Player player, int interactedEntityId) {
+        Conversation conversation = this.conversations.getIfPresent(player.getUniqueId());
+        if (conversation != null) {
+            interact(conversation);
+        } else {
+            Conversation newConversation = Conversation.of(interactedEntityId, player);
+            this.conversations.put(player.getUniqueId(), newConversation);
 
+            interact(newConversation);
+        }
     }
 
     public void interact(@NotNull Conversation conversation) {
+        
+    }
 
+    public void invalidate(@NotNull UUID interactantUniqueId) {
+        this.conversations.invalidate(interactantUniqueId);
+
+        Player player = Bukkit.getPlayer(interactantUniqueId);
+        if (player != null) {
+            this.invalidate(player);
+        }
+    }
+
+    public void invalidate(@NotNull Player player) {
+        this.conversations.invalidate(player.getUniqueId());
+    }
+
+    public void invalidate(@NotNull Conversation conversation) {
+        invalidate(conversation.getInteractantUniqueId());
     }
 
     public Cache<Integer, InteractiveEntity> getInteractiveEntities() {
